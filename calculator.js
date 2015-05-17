@@ -25,3 +25,4 @@ var periodoTrabalhadoManha = b.diff(a, 'second', true);
 
 var horaSaida = moment(DIA_FICTICIO + tardeInicio).add(JORNADA_TOTAL_SEGUNDOS - periodoTrabalhadoManha, "second");
 console.log("Hora de saída: " + horaSaida.subtract(10, 'minutes').format("HH:mm:ss"));
+console.log("Hora extra: " + horaSaida.add(20, 'minutes').format("HH:mm:ss"));

@@ -8,9 +8,6 @@ var tardeInicio = $('.tabExterna tr').last().children().eq(3).html();*/
 
 if(manhaInicio == "" || manhaFim == "" || tardeInicio == "") 
     console.log("Dados Insuficientes!");
-//else
-//    console.log("manhainicio:" + manhaInicio + "<br>manhaFim:" + manhaFim + "<br>tardeInicio:" + tardeInicio);
-
 
 var DIA_FICTICIO = "2011-01-01 ";
 var JORNADA_TOTAL_SEGUNDOS = 31680;

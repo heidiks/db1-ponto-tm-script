@@ -2,14 +2,9 @@ var manhaInicio = $('.tabExterna tr').last().children().eq(1).html();
 var manhaFim = $('.tabExterna tr').last().children().eq(2).html();
 var tardeInicio = $('.tabExterna tr').last().children().eq(3).html();
 
-if(verificaHorariosMinimos(manhaInicio, manhaFim, tardeInicio)) {
+if(manhaInicio == "" || manhaFim == "" || tardeInicio == "") {
     console.log("Dados Insuficientes!");
-	return;
 } 
-
-var verificaHorariosMinimos = function(manhaInicio, manhaFim, tardeInicio) {
-	manhaInicio == "" || manhaFim == "" || tardeInicio == ""
-}
 
 var calculaDiferenca = function(horaA, horaB) {
 	var momentA = criaMoment(horaA);
@@ -42,7 +37,7 @@ if (!document.getElementById('myCss'))
     head.appendChild(link);
 }
 
-if(!verificaHorariosMinimos(manhaInicio, manhaFim, tardeInicio)) {
+if(manhaInicio != "" || manhaFim != "" || tardeInicio != "") {
 	$("body").append (
 		'<div id="dvCalculator"><span class="btn btn-lg btn-primary glyphicon glyphicon-ok" title="Hora minima de  sa&iacute;da"> Sa&iacute;da<br>&nbsp;'
 		+ horaSaida.subtract(10, 'minutes').format("HH:mm:ss") +

@@ -38,7 +38,7 @@ if (!document.getElementById(cssId))
     head.appendChild(link);
 }
 
-if(manhaInicio != "" && manhaFim != "" && tardeInicio != "") {
+if(manhaInicio != "undefined" && manhaFim != "undefined" && tardeInicio != "undefined") {
 	$("body").append (
 		'<div id="dvCalculator"><span class="btn btn-lg btn-primary glyphicon glyphicon-ok" title="Hora minima de  sa&iacute;da"> Sa&iacute;da<br>&nbsp;'
 		+ horaSaida.subtract(10, 'minutes').format("HH:mm:ss") +

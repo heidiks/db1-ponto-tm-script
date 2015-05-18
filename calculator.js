@@ -29,7 +29,7 @@ if (!document.getElementById('myCss'))
 {
     var head  = document.getElementsByTagName('head')[0];
     var link  = document.createElement('link');
-    link.id   = cssId;
+    link.id   = 'myCss';
     link.rel  = 'stylesheet';
     link.type = 'text/css';
     link.href = 'https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.4/css/bootstrap.min.css';

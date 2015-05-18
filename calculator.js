@@ -24,7 +24,7 @@ var periodoTrabalhadoManha = calculaDiferenca(manhaFim, manhaInicio);
 
 var horaSaida = criaMoment(tardeInicio).add(JORNADA_TOTAL_SEGUNDOS - periodoTrabalhadoManha, "second");
 
-if(manhaInicio != "undefined" && manhaFim != "undefined" && tardeInicio != "undefined") {
+if(!manhaInicio && !manhaFim && !tardeInicio) {
 	// gambeta para carregar css
 	var cssId = 'myCss';
 	if (!document.getElementById(cssId))

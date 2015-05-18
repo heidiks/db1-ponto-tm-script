@@ -2,10 +2,14 @@ var manhaInicio = $('.tabExterna tr').last().children().eq(1).html();
 var manhaFim = $('.tabExterna tr').last().children().eq(2).html();
 var tardeInicio = $('.tabExterna tr').last().children().eq(3).html();
 
-if(manhaInicio == "" || manhaFim == "" || tardeInicio == "") {
+if(verificaHorariosMinimos(manhaInicio, manhaFim, tardeInicio) {
     console.log("Dados Insuficientes!");
 	return;
 } 
+
+var verificaHorariosMinimos = function(manhaInicio, manhaFim, tardeInicio) {
+	manhaInicio == "" || manhaFim == "" || tardeInicio == ""
+}
 
 var calculaDiferenca = function(horaA, horaB) {
 	var momentA = criaMoment(horaA);
@@ -38,10 +42,12 @@ if (!document.getElementById('myCss'))
     head.appendChild(link);
 }
 
-$("body").append (
-	'<div id="dvCalculator"><span class="btn btn-lg btn-primary glyphicon glyphicon-ok" title="Hora minima de  sa&iacute;da"> Sa&iacute;da<br>&nbsp;'
-	+ horaSaida.subtract(10, 'minutes').format("HH:mm:ss") +
-	'&nbsp;</span><span class="btn btn-lg btn-warning glyphicon glyphicon-time" title="Hora extra m&iacute;nima"> Extra<br>&nbsp;'
-	+ horaSaida.add(20, 'minutes').format("HH:mm:ss") +
-	'&nbsp;</span></div>'
-);
+if(!verificaHorariosMinimos(manhaInicio, manhaFim, tardeInicio) {
+	$("body").append (
+		'<div id="dvCalculator"><span class="btn btn-lg btn-primary glyphicon glyphicon-ok" title="Hora minima de  sa&iacute;da"> Sa&iacute;da<br>&nbsp;'
+		+ horaSaida.subtract(10, 'minutes').format("HH:mm:ss") +
+		'&nbsp;</span><span class="btn btn-lg btn-warning glyphicon glyphicon-time" title="Hora extra m&iacute;nima"> Extra<br>&nbsp;'
+		+ horaSaida.add(20, 'minutes').format("HH:mm:ss") +
+		'&nbsp;</span></div>'
+	);
+}

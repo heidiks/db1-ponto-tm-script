@@ -24,21 +24,21 @@ var periodoTrabalhadoManha = calculaDiferenca(manhaFim, manhaInicio);
 
 var horaSaida = criaMoment(tardeInicio).add(JORNADA_TOTAL_SEGUNDOS - periodoTrabalhadoManha, "second");
 
-// gambeta para carregar css
-var cssId = 'myCss';
-if (!document.getElementById(cssId))
-{
-    var head  = document.getElementsByTagName('head')[0];
-    var link  = document.createElement('link');
-    link.id   = cssId;
-    link.rel  = 'stylesheet';
-    link.type = 'text/css';
-    link.href = 'https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.4/css/bootstrap.min.css';
-    link.media = 'all';
-    head.appendChild(link);
-}
-
 if(manhaInicio != "undefined" && manhaFim != "undefined" && tardeInicio != "undefined") {
+	// gambeta para carregar css
+	var cssId = 'myCss';
+	if (!document.getElementById(cssId))
+	{
+	    var head  = document.getElementsByTagName('head')[0];
+	    var link  = document.createElement('link');
+	    link.id   = cssId;
+	    link.rel  = 'stylesheet';
+	    link.type = 'text/css';
+	    link.href = 'https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.4/css/bootstrap.min.css';
+	    link.media = 'all';
+	    head.appendChild(link);
+	}
+
 	$("body").append (
 		'<div id="dvCalculator"><span class="btn btn-lg btn-primary glyphicon glyphicon-ok" title="Hora minima de  sa&iacute;da"> Sa&iacute;da<br>&nbsp;'
 		+ horaSaida.subtract(10, 'minutes').format("HH:mm:ss") +

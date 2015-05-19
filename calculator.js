@@ -24,7 +24,7 @@ var periodoTrabalhadoManha = calculaDiferenca(manhaFim, manhaInicio);
 
 var horaSaida = criaMoment(tardeInicio).add(JORNADA_TOTAL_SEGUNDOS - periodoTrabalhadoManha, "second");
 
-if (typeof manhaInicio != 'undefined' && typeof manhaFim != 'undefined' && typeof tardeInicio != 'undefined') {
+if (typeof manhaInicio != 'undefined' && typeof manhaFim != 'undefined' && typeof tardeInicio != 'undefined' && horaSaida.isValid()) {
 	// gambeta para carregar css
 	var cssId = 'myCss';
 	if (!document.getElementById(cssId))
@@ -40,10 +40,14 @@ if (typeof manhaInicio != 'undefined' && typeof manhaFim != 'undefined' && typeo
 	}
 
 	$("body").append (
-		'<div id="dvCalculator"><span class="btn btn-lg btn-primary glyphicon glyphicon-ok" title="Hora minima de  sa&iacute;da"> Sa&iacute;da<br>&nbsp;'
-		+ horaSaida.subtract(10, 'minutes').format("HH:mm:ss") +
-		'&nbsp;</span><span class="btn btn-lg btn-warning glyphicon glyphicon-time" title="Hora extra m&iacute;nima"> Extra<br>&nbsp;'
-		+ horaSaida.add(20, 'minutes').format("HH:mm:ss") +
-		'&nbsp;</span></div>'
+		"<div id=\"dvCalculator\" class=\"panel panel-default\" style=\"width:550px\">" +
+			"<div class=\"panel-heading\">" +
+				"<h3 class=\"panel-title\" id=\"panel-title\">Informa&ccedil;&otilde;es<a class=\"anchorjs-link\" href=\"#panel-title\"><span class=\"anchorjs-icon\"></span></a></h3>" +
+			"</div>" +
+		  	"<div class=\"panel-body\">" +
+  				"<span class=\"btn btn-lg btn-success btn-block glyphicon glyphicon-ok\" title=\"Hora minima de sa&iacute;da\"> Saída:" + horaSaida.subtract(10, 'minutes').format("HH:mm:ss") + "&nbsp;</span>&nbsp;" +
+  				"<span class=\"btn btn-lg btn-warning btn-block glyphicon glyphicon-time\" title=\"Hora extra m&iacute;nima\"> Extra: " + horaSaida.add(20, 'minutes').format("HH:mm:ss") + "&nbsp;</span></div>" +
+ 		 	"</div>"+
+		"</div>"
 	);
 }

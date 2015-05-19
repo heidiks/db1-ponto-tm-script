@@ -45,8 +45,8 @@ if (typeof manhaInicio != 'undefined' && typeof manhaFim != 'undefined' && typeo
 				"<h3 class=\"panel-title\" id=\"panel-title\">Informa&ccedil;&otilde;es<a class=\"anchorjs-link\" href=\"#panel-title\"><span class=\"anchorjs-icon\"></span></a></h3>" +
 			"</div>" +
 		  	"<div class=\"panel-body\">" +
-  				"<span class=\"btn btn-lg btn-success btn-block glyphicon glyphicon-ok\" title=\"Hora minima de sa&iacute;da\"> Saída:" + horaSaida.subtract(10, 'minutes').format("HH:mm:ss") + "&nbsp;</span>&nbsp;" +
-  				"<span class=\"btn btn-lg btn-warning btn-block glyphicon glyphicon-time\" title=\"Hora extra m&iacute;nima\"> Extra: " + horaSaida.add(20, 'minutes').format("HH:mm:ss") + "&nbsp;</span></div>" +
+  				"<span class=\"btn btn-lg btn-success btn-block glyphicon glyphicon-ok\" title=\"Hora minima de sa&iacute;da\"> Saída:" + horaSaida.subtract(10, 'minutes').format("HH:mm:ss") + "</span>" +
+  				"<span class=\"btn btn-lg btn-warning btn-block glyphicon glyphicon-time\" title=\"Hora extra m&iacute;nima\"> Extra:" + horaSaida.add(20, 'minutes').format("HH:mm:ss") + "</span>" +
  		 	"</div>"+
 		"</div>"
 	);

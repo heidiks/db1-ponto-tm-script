@@ -1,3 +1,8 @@
+if($("#impRelIndividual")) {
+    $("#impRelIndividual").attr("align", "center");
+    $("#impRelIndividual").css("width", "50%");
+}
+
 var manhaInicio = $('.tabExterna tr').last().children().eq(1).html();
 var manhaFim = $('.tabExterna tr').last().children().eq(2).html();
 var tardeInicio = $('.tabExterna tr').last().children().eq(3).html();

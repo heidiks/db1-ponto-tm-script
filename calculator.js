@@ -46,7 +46,7 @@ if(manhaInicio != "" && manhaFim != "" && tardeInicio != "") {
 		}
 	    
 		$(".tabExterna").parent().prepend(
-			"<div id=\"dvCalculator\" class=\"panel panel-primary\" style=\"width:550px\">" +
+			"<div id=\"dvCalculator\" class=\"panel panel-primary\" style=\"width:100%\">" +
 				"<div class=\"panel-heading\">" +
 					"<h3 class=\"panel-title\" id=\"panel-title\">Informa&ccedil;&otilde;es<a class=\"anchorjs-link\" href=\"#panel-title\"><span class=\"anchorjs-icon\"></span></a></h3>" +
 				"</div>" +

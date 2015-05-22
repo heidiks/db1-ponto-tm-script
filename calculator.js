@@ -1,3 +1,16 @@
+// ==UserScript==
+// @name         DB1 ponto TM calculator
+// @namespace    http://your.homepage/
+// @version      0.1
+// @description  TODO 
+// @author       Heidi Kussakawa
+// @match        http://ponto.db1.com.br/ponto/pages/login.jsf
+// @grant        none
+// @require      http://code.jquery.com/jquery-latest.js
+// @require      http://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.2/moment.min.js
+// @require      https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.4/js/bootstrap.js 
+// ==/UserScript==
+
 DIA_FICTICIO = "2011-01-01 ";
 
 // gambeta para carregar css
@@ -21,9 +34,11 @@ if($("#impRelIndividual")) {
 
 $(".tabExterna th:last-child, .tabExterna td:last-child").each(function(index) {
     var horasTrabalhadas = moment(DIA_FICTICIO + $( this ).text());
-    if(horasTrabalhadas.isValid() && !horasTrabalhadas.isBefore(DIA_FICTICIO + '08:58:00', 'time')) {
-        $(this).append("<span class=\"label label-warning\">&nbsp;Hora extra!</span>");
-    }
+    if(horasTrabalhadas.isValid() && !horasTrabalhadas.isBefore(DIA_FICTICIO + '08:58:00', 'time')) 
+        $(this).append("&nbsp;<span class=\"label label-warning\">Hora extra!</span>");
+    else if(horasTrabalhadas.isValid() && horasTrabalhadas.isBefore(DIA_FICTICIO + '08:38:00', 'time') && !horasTrabalhadas.isSame(DIA_FICTICIO + '00:00:00', 'time')) 
+        $(this).append("&nbsp;<span class=\"label label-danger\">Jornada abaixo!</span>");
+    
 });
 
 var manhaInicio = $('.tabExterna tr').last().children().eq(1).html();

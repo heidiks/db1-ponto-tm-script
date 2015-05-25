@@ -33,12 +33,14 @@ if($("#impRelIndividual")) {
 }
 
 $(".tabExterna th:last-child, .tabExterna td:last-child").each(function(index) {
-    var horasTrabalhadas = moment(DIA_FICTICIO + $( this ).text());
+	if(index == 0 && $(this).text() != "Total Horas")
+		return false;
+
+    var horasTrabalhadas = moment(DIA_FICTICIO + $(this).text());
     if(horasTrabalhadas.isValid() && !horasTrabalhadas.isBefore(DIA_FICTICIO + '08:58:00', 'time')) 
         $(this).append("&nbsp;<span class=\"label label-warning\">Hora extra!</span>");
     else if(horasTrabalhadas.isValid() && horasTrabalhadas.isBefore(DIA_FICTICIO + '08:38:00', 'time') && !horasTrabalhadas.isSame(DIA_FICTICIO + '00:00:00', 'time')) 
         $(this).append("&nbsp;<span class=\"label label-danger\">Jornada abaixo!</span>");
-    
 });
 
 var manhaInicio = $('.tabExterna tr').last().children().eq(1).html();

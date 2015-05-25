@@ -46,10 +46,9 @@ $(".tabExterna th:last-child, .tabExterna td:last-child").each(function(index) {
 var manhaInicio = $('.tabExterna tr').last().children().eq(1).html();
 var manhaFim = $('.tabExterna tr').last().children().eq(2).html();
 var tardeInicio = $('.tabExterna tr').last().children().eq(3).html();
-var tardeFim = $('.tabExterna tr').last().children().eq(4).html();
 
 
-if(manhaInicio != "" && manhaFim != "" && tardeInicio != "" && tardeFim == "") {
+if(manhaInicio != "" && manhaFim != "" && tardeInicio != "") {
 	var calculaDiferenca = function(horaA, horaB) {
 		var momentA = criaMoment(horaA);
 		var momentB = criaMoment(horaB);

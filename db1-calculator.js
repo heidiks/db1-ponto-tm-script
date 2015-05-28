@@ -28,16 +28,17 @@ if($(".tabExterna").length) {
 
         var horasTrabalhadas = moment(DIA_FICTICIO + $(this).text());
         if(horasTrabalhadas.isValid() && !horasTrabalhadas.isBefore(DIA_FICTICIO + '08:58:00', 'time')) 
-            $(this).append("&nbsp;<span class=\"label label-warning\">Hora extra!</span>");
+            $(this).append("&nbsp;<span class=\"label label-warning\" style=\"font-size:9px\">Hora extra!</span>");
         else if(horasTrabalhadas.isValid() && horasTrabalhadas.isBefore(DIA_FICTICIO + '08:38:00', 'time') && !horasTrabalhadas.isSame(DIA_FICTICIO + '00:00:00', 'time')) 
-            $(this).append("&nbsp;<span class=\"label label-danger\">Jornada abaixo!</span>");
+            $(this).append("&nbsp;<span class=\"label label-danger\" style=\"font-size:9px\">Jornada abaixo!</span>");
+        else if(horasTrabalhadas.isSame(DIA_FICTICIO + '00:00:00', 'time'))
+            $(this).parent().addClass("info");
     });
 
 
     var manhaInicio = $('.tabExterna tr').last().children().eq(1).html();
     var manhaFim = $('.tabExterna tr').last().children().eq(2).html();
     var tardeInicio = $('.tabExterna tr').last().children().eq(3).html();
-
 
     if(manhaInicio != "" && manhaFim != "" && tardeInicio != "") {
         var calculaDiferenca = function(horaA, horaB) {

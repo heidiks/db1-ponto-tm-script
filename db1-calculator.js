@@ -1,7 +1,4 @@
-if($(".tabExterna")) {
-    $.getScript("http://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.2/moment.min.js");
-    $.getScript("https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.4/js/bootstrap.js ");
-
+if($(".tabExterna").length) {
     DIA_FICTICIO = "2011-01-01 ";
 
     // gambeta para carregar css
@@ -22,7 +19,7 @@ if($(".tabExterna")) {
 
     if($("#impRelIndividual")) {
         $("#impRelIndividual").attr("align", "center");
-        $("#impRelIndividual").css("width", "60%");
+        $("#impRelIndividual").css("width", "55%");
     }
 
     $(".tabExterna th:last-child, .tabExterna td:last-child").each(function(index) {

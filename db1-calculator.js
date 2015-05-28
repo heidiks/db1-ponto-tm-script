@@ -1,25 +1,29 @@
+if($(".tabExterna")) {
+    $.getScript("http://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.2/moment.min.js");
+    $.getScript("https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.4/js/bootstrap.js ");
 
-DIA_FICTICIO = "2011-01-01 ";
+    DIA_FICTICIO = "2011-01-01 ";
 
-// gambeta para carregar css
-var cssId = 'myCss';
-if (!document.getElementById(cssId))
-{
-    var head  = document.getElementsByTagName('head')[0];
-    var link  = document.createElement('link');
-    link.id   = cssId;
-    link.rel  = 'stylesheet';
-    link.type = 'text/css';
-    link.href = 'https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.4/css/bootstrap.min.css';
-    link.media = 'all';
-    head.appendChild(link);
-}
+    // gambeta para carregar css
+    var cssId = 'myCss';
+    if (!document.getElementById(cssId))
+    {
+        var head  = document.getElementsByTagName('head')[0];
+        var link  = document.createElement('link');
+        link.id   = cssId;
+        link.rel  = 'stylesheet';
+        link.type = 'text/css';
+        link.href = 'https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.4/css/bootstrap.min.css';
+        link.media = 'all';
+        head.appendChild(link);
+    }
 
-$(".tabExterna").addClass(" table table-striped table-bordered table-hover");
+    $(".tabExterna").addClass(" table table-striped table-bordered table-hover");
 
-if($("#impRelIndividual")) {
-    $("#impRelIndividual").attr("align", "center");
-    $("#impRelIndividual").css("width", "65%");
+    if($("#impRelIndividual")) {
+        $("#impRelIndividual").attr("align", "center");
+        $("#impRelIndividual").css("width", "65%");
+    }
 }
 
 $(".tabExterna th:last-child, .tabExterna td:last-child").each(function(index) {

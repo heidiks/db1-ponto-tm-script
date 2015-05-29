@@ -16,6 +16,7 @@ if($(".tabExterna").length) {
     }
 
     $(".tabExterna").addClass(" table table-striped table-bordered table-hover");
+    $(".tabExterna").parent().parent().next().children().addClass("alert alert-warning");
 
     if($("#impRelIndividual")) {
         $("#impRelIndividual").attr("align", "center");

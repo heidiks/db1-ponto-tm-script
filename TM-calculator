@@ -4,7 +4,7 @@
 // @version      0.1
 // @description  TODO 
 // @author       Heidi Kussakawa
-// @match        http://ponto.db1.com.br/ponto/pages/login.jsf
+// @match        http://ponto.db1.com.br/ponto/*
 // @grant        none
 // @require      http://code.jquery.com/jquery-latest.js
 // ==/UserScript==

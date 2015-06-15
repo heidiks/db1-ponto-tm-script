@@ -40,8 +40,11 @@ if($(".tabExterna").length) {
     var manhaInicio = $('.tabExterna tr').last().children().eq(1).html();
     var manhaFim = $('.tabExterna tr').last().children().eq(2).html();
     var tardeInicio = $('.tabExterna tr').last().children().eq(3).html();
+    var tardeFim = $('.tabExterna tr').last().children().eq(4).html();
 
-    if(manhaInicio != "" && manhaFim != "" && tardeInicio != "") {
+    if(manhaInicio != "" && manhaFim != "" && tardeInicio != "" && tardeFim == "") {
+        var JORNADA_MINIMA_TOTAL_SEGUNDOS = 31680;
+
         var calculaDiferenca = function(horaA, horaB) {
             var momentA = criaMoment(horaA);
             var momentB = criaMoment(horaB);
@@ -53,24 +56,37 @@ if($(".tabExterna").length) {
             return moment(DIA_FICTICIO + hora);
         };
 
-        var JORNADA_MINIMA_TOTAL_SEGUNDOS = 31680;
+        var timeNow = function() {
+            return moment().format("HH:mm:ss");
+        };
 
-        var periodoTrabalhadoManha = calculaDiferenca(manhaFim, manhaInicio);
+        var periodoTrabalhadoManha = function() {
+            return calculaDiferenca(manhaFim, manhaInicio);
+        };
 
-        var horaSaida = criaMoment(tardeInicio).add(JORNADA_MINIMA_TOTAL_SEGUNDOS - periodoTrabalhadoManha, "second");
+        var horaAtualTrabalhadas = function() {
+            return moment(DIA_FICTICIO).add(periodoTrabalhadoManha() + calculaDiferenca(timeNow(), tardeInicio), "second");
+        };
 
-        var timeNow = moment().format("HH:mm:ss");
-        var horaAtualTrabalhadas = moment(DIA_FICTICIO).add(periodoTrabalhadoManha + calculaDiferenca(timeNow, tardeInicio), "second");
-        var porcentagem_horaAtualTrabalhadas = (periodoTrabalhadoManha + calculaDiferenca(timeNow, tardeInicio)) * 100 / JORNADA_MINIMA_TOTAL_SEGUNDOS;
-        
+        var porcentagem_horaAtualTrabalhadas = function() {
+            return (periodoTrabalhadoManha() + calculaDiferenca(timeNow(), tardeInicio)) * 100 / JORNADA_MINIMA_TOTAL_SEGUNDOS;
+        };
+
+        var refresh = function() {
+            $("#horarioCumprido").text(horaAtualTrabalhadas());
+        };
+
+        var horaSaida = criaMoment(tardeInicio).add(JORNADA_MINIMA_TOTAL_SEGUNDOS - periodoTrabalhadoManha(), "second");
+
         if (typeof manhaInicio != 'undefined' && typeof manhaFim != 'undefined' && typeof tardeInicio != 'undefined' && horaSaida.isValid()) {
             $(".tabExterna").parent().prepend(
                 "<div align=\"center\">" +
+                    /*"<button class=\"btn btn-default pull-right glyphicon glyphicon-refresh\" onClick=\"refresh()\"></button>" +*/
                     "<div class=\"well well-lg\">" +
-                        "<h2>Voc&ecirc; j&aacute; cumpriu <strong>"+ horaAtualTrabalhadas.format("HH:mm") +"</strong> horas</h2>" +
+                        "<h2>Voc&ecirc; j&aacute; cumpriu <strong><span id=\"horarioCumprido\">"+ horaAtualTrabalhadas().format("HH:mm") +"</span></strong> horas</h2>" +
                             "<div class=\"progress\">" +
-                                "<div class=\"progress-bar progress-bar-striped active\" role=\"progressbar\" aria-valuenow=\"45\" aria-valuemin=\"0\" aria-valuemax=\"100\" style=\"width: "+ porcentagem_horaAtualTrabalhadas + "%\">" +
-                                    parseInt(porcentagem_horaAtualTrabalhadas) +"%" + 
+                                "<div class=\"progress-bar progress-bar-striped active\" role=\"progressbar\" aria-valuenow=\"45\" aria-valuemin=\"0\" aria-valuemax=\"100\" style=\"width: "+ porcentagem_horaAtualTrabalhadas() + "%\">" +
+                                    parseInt(porcentagem_horaAtualTrabalhadas()) +"%" + 
                                 "</div>" +
                             "</div>" +
                         "<h4>Jornada:</h4>\n" +

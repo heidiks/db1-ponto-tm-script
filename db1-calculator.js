@@ -72,8 +72,11 @@ if($(".tabExterna").length) {
             return (periodoTrabalhadoManha() + calculaDiferenca(timeNow(), tardeInicio)) * 100 / JORNADA_MINIMA_TOTAL_SEGUNDOS;
         };
 
-        var refresh = function() {
-            $("#horarioCumprido").text(horaAtualTrabalhadas());
+        refresh = function() {
+            $("#horarioCumprido").text(horaAtualTrabalhadas().format("HH:mm"));
+            
+            var porcentagem = parseInt(porcentagem_horaAtualTrabalhadas());
+            $("#progress-bar").css("width", porcentagem + "%").text(parseInt(porcentagem) +"%");
         };
 
         var horaSaida = criaMoment(tardeInicio).add(JORNADA_MINIMA_TOTAL_SEGUNDOS - periodoTrabalhadoManha(), "second");
@@ -81,11 +84,11 @@ if($(".tabExterna").length) {
         if (typeof manhaInicio != 'undefined' && typeof manhaFim != 'undefined' && typeof tardeInicio != 'undefined' && horaSaida.isValid()) {
             $(".tabExterna").parent().prepend(
                 "<div align=\"center\">" +
-                    /*"<button class=\"btn btn-default pull-right glyphicon glyphicon-refresh\" onClick=\"refresh()\"></button>" +*/
+                    "<button class=\"btn btn-default pull-right glyphicon glyphicon-refresh\" onClick=\"refresh()\"></button>" +
                     "<div class=\"well well-lg\">" +
                         "<h2>Voc&ecirc; j&aacute; cumpriu <strong><span id=\"horarioCumprido\">"+ horaAtualTrabalhadas().format("HH:mm") +"</span></strong> horas</h2>" +
                             "<div class=\"progress\">" +
-                                "<div class=\"progress-bar progress-bar-striped active\" role=\"progressbar\" aria-valuenow=\"45\" aria-valuemin=\"0\" aria-valuemax=\"100\" style=\"width: "+ porcentagem_horaAtualTrabalhadas() + "%\">" +
+                                "<div id=\"progress-bar\" class=\"progress-bar progress-bar-striped active\" role=\"progressbar\" aria-valuenow=\"45\" aria-valuemin=\"0\" aria-valuemax=\"100\" style=\"width: "+ porcentagem_horaAtualTrabalhadas() + "%\">" +
                                     parseInt(porcentagem_horaAtualTrabalhadas()) +"%" + 
                                 "</div>" +
                             "</div>" +

@@ -24,7 +24,7 @@ if($(".tabExterna").length) {
     }
 
     $(".tabExterna th:last-child, .tabExterna td:last-child").each(function(index) {
-        if(index == 0 && $(this).text() != "Total Horas")
+        if((index == 0 && $(this).text() != "Total Horas") || $(this).siblings().filter(":first").text().includes("Sab.")) || $(this).siblings().filter(":first").text().includes("Dom.")))
             return false;
 
         var horasTrabalhadas = moment(DIA_FICTICIO + $(this).text());

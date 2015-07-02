@@ -24,7 +24,7 @@ if($(".tabExterna").length) {
     }
 
     $(".tabExterna th:last-child, .tabExterna td:last-child").each(function(index) {
-        if((index == 0 && $(this).text() != "Total Horas") || $(this).siblings().filter(":first").text().includes("Sab.") || $(this).siblings().filter(":first").text().includes("Dom."))
+        if((index == 0 && $(this).text() != "Total Horas"))
             return false;
 
         var horasTrabalhadas = moment(DIA_FICTICIO + $(this).text());
@@ -35,8 +35,6 @@ if($(".tabExterna").length) {
         else if(horasTrabalhadas.isSame(DIA_FICTICIO + '00:00:00', 'time'))
             $(this).parent().addClass("info");
     });
-
-//teste
 
     var manhaInicio = $('.tabExterna tr').last().children().eq(1).html();
     var manhaFim = $('.tabExterna tr').last().children().eq(2).html();

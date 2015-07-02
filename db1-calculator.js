@@ -36,6 +36,7 @@ if($(".tabExterna").length) {
             $(this).parent().addClass("info");
     });
 
+//teste
 
     var manhaInicio = $('.tabExterna tr').last().children().eq(1).html();
     var manhaFim = $('.tabExterna tr').last().children().eq(2).html();

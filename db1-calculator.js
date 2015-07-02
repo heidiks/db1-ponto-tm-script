@@ -45,9 +45,9 @@ if($(".tabExterna").length) {
         if(!isFinalDeSemana()) {
             var horasTrabalhadas = moment(DIA_FICTICIO + $(this).text());
             if(horasTrabalhadas.isValid() && !horasTrabalhadas.isBefore(DIA_FICTICIO + '08:58:00', 'time')) 
-                $(this).append("&nbsp;<button class=\"label label-warning\" style=\"font-size:9px\" title=\"Saldo: " + calculaDiferenca(horasTrabalhadas, criaMoment('08:58:00'))  +"\">Hora extra!</button>");
+                $(this).append("&nbsp;<span class=\"label label-warning\" style=\"font-size:9px\" title=\"Saldo: " + calculaDiferenca($(this).text(), criaMoment('08:58:00'))  +"\">Hora extra!</span>");
             else if(horasTrabalhadas.isValid() && horasTrabalhadas.isBefore(DIA_FICTICIO + '08:38:00', 'time') && !horasTrabalhadas.isSame(DIA_FICTICIO + '00:00:00', 'time')) 
-                $(this).append("&nbsp;<button class=\"label label-danger\" style=\"font-size:9px\" title=\"Saldo: " + calculaDiferenca(horasTrabalhadas, criaMoment('08:58:00'))  +"\">Jornada abaixo!</button>");
+                $(this).append("&nbsp;<span class=\"label label-danger\" style=\"font-size:9px\" title=\"Saldo: " + calculaDiferenca($(this).text(), criaMoment('08:58:00'))  +"\">Jornada abaixo!</span>");
             else if(horasTrabalhadas.isSame(DIA_FICTICIO + '00:00:00', 'time'))
                 $(this).parent().addClass("info");
         }

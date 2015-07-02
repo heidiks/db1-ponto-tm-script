@@ -31,7 +31,7 @@ if($(".tabExterna").length) {
 
     if($("#impRelIndividual")) {
         $("#impRelIndividual").attr("align", "center");
-        $("#impRelIndividual").css("width", "50%");
+        $("#impRelIndividual").css("width", "55%");
     }
 
     $(".tabExterna th:last-child, .tabExterna td:last-child").each(function(index) {

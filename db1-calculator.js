@@ -1,6 +1,17 @@
 if($(".tabExterna").length) {
     DIA_FICTICIO = "2011-01-01 ";
 
+    calculaDiferenca = function(horaA, horaB) {
+        var momentA = criaMoment(horaA);
+        var momentB = criaMoment(horaB);
+
+        return momentA.diff(momentB, 'second', true);
+    };
+
+    criaMoment = function(hora) {
+        return moment(DIA_FICTICIO + hora);
+    };
+
     // gambeta para carregar css
     var cssId = 'myCss';
     if (!document.getElementById(cssId))
@@ -30,13 +41,13 @@ if($(".tabExterna").length) {
         var isFinalDeSemana = function() {
             return $(this).parent().first().text().includes("Sab.") || $(this).parent().first().text().includes("Dom.");
         }
-        
+
         if(!isFinalDeSemana()) {
             var horasTrabalhadas = moment(DIA_FICTICIO + $(this).text());
             if(horasTrabalhadas.isValid() && !horasTrabalhadas.isBefore(DIA_FICTICIO + '08:58:00', 'time')) 
-                $(this).append("&nbsp;<span class=\"label label-warning\" style=\"font-size:9px\">Hora extra!</span>");
+                $(this).append("&nbsp;<button class=\"label label-warning\" style=\"font-size:9px\" title=\"Saldo: " + calculaDiferenca(horasTrabalhadas, criaMoment('08:58:00'))  +"\">Hora extra!</button>");
             else if(horasTrabalhadas.isValid() && horasTrabalhadas.isBefore(DIA_FICTICIO + '08:38:00', 'time') && !horasTrabalhadas.isSame(DIA_FICTICIO + '00:00:00', 'time')) 
-                $(this).append("&nbsp;<span class=\"label label-danger\" style=\"font-size:9px\">Jornada abaixo!</span>");
+                $(this).append("&nbsp;<button class=\"label label-danger\" style=\"font-size:9px\" title=\"Saldo: " + calculaDiferenca(horasTrabalhadas, criaMoment('08:58:00'))  +"\">Jornada abaixo!</button>");
             else if(horasTrabalhadas.isSame(DIA_FICTICIO + '00:00:00', 'time'))
                 $(this).parent().addClass("info");
         }
@@ -49,17 +60,6 @@ if($(".tabExterna").length) {
 
     if(manhaInicio != "" && manhaFim != "" && tardeInicio != "" && tardeFim == "") {
         var JORNADA_MINIMA_TOTAL_SEGUNDOS = 31680;
-
-        var calculaDiferenca = function(horaA, horaB) {
-            var momentA = criaMoment(horaA);
-            var momentB = criaMoment(horaB);
-
-            return momentA.diff(momentB, 'second', true);
-        };
-
-        var criaMoment = function(hora) {
-            return moment(DIA_FICTICIO + hora);
-        };
 
         var timeNow = function() {
             return moment().format("HH:mm:ss");

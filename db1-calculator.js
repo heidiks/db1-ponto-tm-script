@@ -27,7 +27,11 @@ if($(".tabExterna").length) {
         if((index == 0 && $(this).text() != "Total Horas"))
             return false;
 
-        if(!$(this).parent().first().text().includes("Sab.") || !$(this).parent().first().text().includes("Dom.")) {
+        var isFinalDeSemana = function() {
+            return $(this).parent().first().text().includes("Sab.") || $(this).parent().first().text().includes("Dom.");
+        }
+        
+        if(!isFinalDeSemana()) {
             var horasTrabalhadas = moment(DIA_FICTICIO + $(this).text());
             if(horasTrabalhadas.isValid() && !horasTrabalhadas.isBefore(DIA_FICTICIO + '08:58:00', 'time')) 
                 $(this).append("&nbsp;<span class=\"label label-warning\" style=\"font-size:9px\">Hora extra!</span>");

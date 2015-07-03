@@ -12,6 +12,20 @@ if($(".tabExterna").length) {
         return moment(DIA_FICTICIO + hora);
     };
 
+    enviarDadosBanco = function save(tempo, dataBanco, operador) {
+        var dataAdicao = new Date();
+        var url = "https://api.mongolab.com/api/1/databases/db1_banco_horas/collections/db1_banco_de_horas?apiKey="+myAPIKey;
+        var data = JSON.stringify({"dataAdicao": dataAdicao, "tempo" : tempo,  "dataBanco": dataBanco, "operador": operador }); 
+         
+        $.ajax(
+          { url: url,
+                data: data,
+              type: "POST",
+              contentType: "application/json" 
+          });
+    }
+
+
     // gambeta para carregar css
     var cssId = 'myCss';
     if (!document.getElementById(cssId))
@@ -38,24 +52,28 @@ if($(".tabExterna").length) {
         if((index == 0 && $(this).text() != "Total Horas"))
             return false;
 
-        var JORNADA_NORMAL = '08:48:00';
+        var JORNADA_NORMAL = '08:58:00';
         var isFinalDeSemana = function() {
             return $(this).parent().first().text().includes("Sab.") || $(this).parent().first().text().includes("Dom.");
         }
 
         var calculaSaldo = function(horasTrabalhadas) {
-            //return 0;
             var day = moment(DIA_FICTICIO);
-            return day.add(calculaDiferenca(horasTrabalhadas.format("HH:mm:ss"), JORNADA_NORMAL), "second").format("HH:mm:ss");
+            return day.add(calculaDiferenca(horasTrabalhadas.format("HH:mm:ss"), '08:48:00'), "second").format("HH:mm:ss");
+        }        
+
+        var calculaSaldoNegativo = function(horasTrabalhadas) {
+            var day = moment(DIA_FICTICIO);
+            return day.subtract(calculaDiferenca(horasTrabalhadas.format("HH:mm:ss"), '08:48:00'), "second").format("HH:mm:ss");
         }
 
 
         if(!isFinalDeSemana()) {
             var horasTrabalhadas = moment(DIA_FICTICIO + $(this).text());
             if(horasTrabalhadas.isValid() && !horasTrabalhadas.isBefore(DIA_FICTICIO + JORNADA_NORMAL, 'time')) 
-                $(this).append("&nbsp;<span class=\"label label-warning\" style=\"font-size:9px\" title=\"Saldo: " + calculaSaldo(horasTrabalhadas)  +"seg\">Hora extra!</span>");
+                $(this).append("&nbsp;<span class=\"label label-warning\" style=\"font-size:9px\" title=\"Saldo: " + calculaSaldo(horasTrabalhadas)  +"\" onClick=\"enviarDadosBanco("+ + ")\">Hora extra!</span>");
             else if(horasTrabalhadas.isValid() && horasTrabalhadas.isBefore(DIA_FICTICIO + '08:38:00', 'time') && !horasTrabalhadas.isSame(DIA_FICTICIO + '00:00:00', 'time')) 
-                $(this).append("&nbsp;<span class=\"label label-danger\" style=\"font-size:9px\" title=\"Saldo: " + calculaSaldo(horasTrabalhadas) +"seg\">Jornada abaixo!</span>");
+                $(this).append("&nbsp;<span class=\"label label-danger\" style=\"font-size:9px\" title=\"Saldo: " + calculaSaldoNegativo(horasTrabalhadas) +"\">Jornada abaixo!</span>");
             else if(horasTrabalhadas.isSame(DIA_FICTICIO + '00:00:00', 'time'))
                 $(this).parent().addClass("info");
         }

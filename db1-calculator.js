@@ -44,8 +44,8 @@ if($(".tabExterna").length) {
         }
 
         var calculaSaldo = function(horasTrabalhadas) {
-            //return criaMoment("").add(calculaDiferenca(horasTrabalhadas.format("HH:mm:ss"), JORNADA_NORMAL), "second").format("HH:mms:ss");
-            return 0;
+            //return 0;
+            return criaMoment("").add(calculaDiferenca(horasTrabalhadas().format("HH:mm:ss"), JORNADA_NORMAL), "second").format("HH:mms:ss");
         }
 
 

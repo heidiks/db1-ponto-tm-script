@@ -55,8 +55,8 @@ if($(".tabExterna").length) {
             return false;
 
         var JORNADA_NORMAL = '08:58:00';
-        var isFinalDeSemana = function() {
-            return $(this).parent().first().text().includes("Sab.") || $(this).parent().first().text().includes("Dom.");
+        var isDiaUtil = function() {
+            return $(this).parent().first().text().indexOf("Sab.") < 0 && $(this).parent().first().text().indexOf("Dom.") < 0;
         }
 
         var calculaSaldo = function(horasTrabalhadas) {
@@ -69,8 +69,7 @@ if($(".tabExterna").length) {
             return day.subtract(calculaDiferenca(horasTrabalhadas.format("HH:mm:ss"), '08:48:00'), "second").format("HH:mm:ss");
         }
 
-
-        if(!isFinalDeSemana()) {
+        if(isDiaUtil()) {
             var horasTrabalhadas = moment(DIA_FICTICIO + $(this).text()); 
             if(horasTrabalhadas.isValid() && !horasTrabalhadas.isBefore(DIA_FICTICIO + JORNADA_NORMAL, 'time')) 
                 $(this).append("&nbsp;<span class=\"label label-warning\" style=\"font-size:9px\" title=\"Saldo: +" + calculaSaldo(horasTrabalhadas)  +"\" onClick=\"enviarDadosBanco("+ calculaDiferenca(horasTrabalhadas.format("HH:mm:ss"), '08:48:00') + ", 'teste', '+') \">Hora extra!</span>");

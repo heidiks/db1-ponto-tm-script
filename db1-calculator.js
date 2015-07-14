@@ -127,9 +127,9 @@ if($(".tabExterna").length) {
                                 "</div>" +
                             "</div>" +
                         "<h4>Jornada:</h4>\n" +
-                         "<h4><span class=\"label label-success\">M&iacute;nima: " + horaSaida.subtract(10, 'minutes').format("HH:mm") + "</span>\n" +
-                        "<span class=\"label label-primary\">Normal: " + horaSaida.add(10, 'minutes').format("HH:mm") + "</span>\n" + 
-                        "<span class=\"label label-warning\">Extra: " + horaSaida.add(10, 'minutes').format("HH:mm") + "</span> </h4>\n" +
+                         "<h4><span class=\"label label-success\">M&iacute;nima: " + horaSaida.subtract(10, 'minutes').format("HH:mm:ss") + "</span>\n" +
+                        "<span class=\"label label-primary\">Normal: " + horaSaida.add(10, 'minutes').format("HH:mm:ss") + "</span>\n" +
+                        "<span class=\"label label-warning\">Extra: " + horaSaida.add(10, 'minutes').format("HH:mm:ss") + "</span> </h4>\n" +
                     "</div>\n" +
                 "</div>"
             );

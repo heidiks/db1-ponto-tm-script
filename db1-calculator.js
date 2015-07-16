@@ -71,11 +71,11 @@ if($(".tabExterna").length) {
 
         var horasTrabalhadas = moment(DIA_FICTICIO + $(this).text()); 
         if((horasTrabalhadas.isValid() && !horasTrabalhadas.isBefore(DIA_FICTICIO + JORNADA_NORMAL, 'time')) || (!isDiaUtil($(this)) && horasTrabalhadas.isAfter(DIA_FICTICIO + '00:00:01', 'time'))) 
-            $(this).append("&nbsp;<span class=\"label label-info\" style=\"font-size:9px\" title=\"Hora extra: +" + calculaSaldo(horasTrabalhadas)  +"\" onClick=\"enviarDadosBanco("+ calculaDiferenca(horasTrabalhadas.format("HH:mm:ss"), '08:48:00') + ", 'teste', '+') \">+"+ calculaSaldo(horasTrabalhadas) + "</span>");
+            $(this).append("&nbsp;<span class=\"label label-warning\" style=\"font-size:9px\" title=\"Hora extra: +" + calculaSaldo(horasTrabalhadas)  +"\" onClick=\"enviarDadosBanco("+ calculaDiferenca(horasTrabalhadas.format("HH:mm:ss"), '08:48:00') + ", 'teste', '+') \">+"+ calculaSaldo(horasTrabalhadas) + "</span>");
         else if(horasTrabalhadas.isValid() && horasTrabalhadas.isBefore(DIA_FICTICIO + '08:38:00', 'time') && !horasTrabalhadas.isSame(DIA_FICTICIO + '00:00:00', 'time')) 
             $(this).append("&nbsp;<span class=\"label label-danger\" style=\"font-size:9px\" title=\"Jornada abaixo: -" + calculaSaldoNegativo(horasTrabalhadas) +"\">-" + calculaSaldoNegativo(horasTrabalhadas) + "</span>");
         else if(horasTrabalhadas.isSame(DIA_FICTICIO + '00:00:00', 'time'))
-            $(this).parent().addClass("warning");
+            $(this).parent().addClass("info");
     });
 
     var manhaInicio = $('.tabExterna tr').last().children().eq(1).html();
@@ -125,7 +125,7 @@ if($(".tabExterna").length) {
                         "<h4>Jornada:</h4>\n" +
                          "<h4><span class=\"label label-success\">M&iacute;nima: " + horaSaida.subtract(10, 'minutes').format("HH:mm") + "</span>\n" +
                         "<span class=\"label label-primary\">Normal: " + horaSaida.add(10, 'minutes').format("HH:mm") + "</span>\n" + 
-                        "<span class=\"label label-info\">Extra: " + horaSaida.add(10, 'minutes').format("HH:mm") + "</span> </h4>\n" +
+                        "<span class=\"label label-warning\">Extra: " + horaSaida.add(10, 'minutes').format("HH:mm") + "</span> </h4>\n" +
                     "</div>\n" +
                 "</div>"
             );

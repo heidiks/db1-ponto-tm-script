@@ -71,15 +71,11 @@ if($(".tabExterna").length) {
 
         var horasTrabalhadas = moment(DIA_FICTICIO + $(this).text()); 
         if((horasTrabalhadas.isValid() && !horasTrabalhadas.isBefore(DIA_FICTICIO + JORNADA_NORMAL, 'time')) || (!isDiaUtil($(this)) && horasTrabalhadas.isAfter(DIA_FICTICIO + '00:00:01', 'time'))) 
-            $(this).append("&nbsp;<span class=\"label label-warning\" style=\"font-size:9px\" title=\"Saldo: +" + calculaSaldo(horasTrabalhadas)  +"\" onClick=\"enviarDadosBanco("+ calculaDiferenca(horasTrabalhadas.format("HH:mm:ss"), '08:48:00') + ", 'teste', '+') \">Hora extra!</span>");
+            $(this).append("&nbsp;<span class=\"label label-warning\" style=\"font-size:9px\" title=\"Saldo: +" + calculaSaldo(horasTrabalhadas)  +"\" onClick=\"enviarDadosBanco("+ calculaDiferenca(horasTrabalhadas.format("HH:mm:ss"), '08:48:00') + ", 'teste', '+') \">+"+ calculaSaldo(horasTrabalhadas) + "</span>");
         else if(horasTrabalhadas.isValid() && horasTrabalhadas.isBefore(DIA_FICTICIO + '08:38:00', 'time') && !horasTrabalhadas.isSame(DIA_FICTICIO + '00:00:00', 'time')) 
-            $(this).append("&nbsp;<span class=\"label label-danger\" style=\"font-size:9px\" title=\"Saldo: -" + calculaSaldoNegativo(horasTrabalhadas) +"\">Jornada abaixo!</span>");
+            $(this).append("&nbsp;<span class=\"label label-danger\" style=\"font-size:9px\" title=\"Saldo: -" + calculaSaldoNegativo(horasTrabalhadas) +"\">-" + calculaSaldoNegativo(horasTrabalhadas) + "</span>");
         else if(horasTrabalhadas.isSame(DIA_FICTICIO + '00:00:00', 'time'))
             $(this).parent().addClass("info");
-
-        if(!isDiaUtil($(this)) && horasTrabalhadas.isAfter(DIA_FICTICIO + '00:00:01', 'time'))
-            $(this).append("&nbsp;<span class=\"label label-warning\" style=\"font-size:9px\" title=\"Saldo: +" + calculaSaldo(horasTrabalhadas)  +"\" onClick=\"enviarDadosBanco("+ calculaDiferenca(horasTrabalhadas.format("HH:mm:ss"), '08:48:00') + ", 'teste', '+') \">Hora extra!</span>");
-
     });
 
     var manhaInicio = $('.tabExterna tr').last().children().eq(1).html();

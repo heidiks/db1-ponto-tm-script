@@ -1,11 +1,11 @@
-# DB1 ponto calc TM
+# DB1 ponto calculator TM
 
 
-## Require
+## Requisitos
  - Google Chrome
  - TamperMonkey: https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo
 
-## Instalation
- - Install tamperkonkey on chrome
- - Add script [here](https://github.com/heidiks/db1-ponto-tm-script/raw/master/TM-calculator.user.js)
- - Login on http://ponto.db1.com.br/ponto/pages/login.jsf to test
+## Instalação
+ - Instale tampermonkey
+ - Adicione o script [aqui](https://github.com/heidiks/db1-ponto-tm-script/raw/master/TM-calculator.user.js)
+ - Acesse http://ponto.db1.com.br/ponto/pages/login.jsf

@@ -13,11 +13,11 @@ if($(".tabExterna").length) {
     };
 
     enviarDadosBanco = function save(tempo, dataBanco, operador) {
-        var myAPIKey = "vsbhBm_8nYSDbzFmxgWstiKs0C4XkG5a";
+        var myAPIKey = "DxKaML782hGRPgnyprYic9tGOTlrh-9M";
         
         var dataAdicao = new Date();
-        var url = "https://api.mongolab.com/api/1/databases/db1_banco_horas/collections/db1_banco_de_horas?apiKey="+myAPIKey;
-        var data = JSON.stringify({"dataAdicao": dataAdicao, "tempo" : tempo,  "dataBanco": dataBanco, "operador": operador }); 
+        var url = "https://api.mongolab.com/api/1/databases/db1_banco_horas/collections/banco_horas?apiKey="+myAPIKey;
+        var data = JSON.stringify({"dataAdicao": dataAdicao, "tempo" : tempo,  "dataBanco": dataBanco,}); 
          
         $.ajax(
           { url: url,
@@ -71,9 +71,9 @@ if($(".tabExterna").length) {
 
         var horasTrabalhadas = moment(DIA_FICTICIO + $(this).text()); 
         if((horasTrabalhadas.isValid() && !horasTrabalhadas.isBefore(DIA_FICTICIO + JORNADA_NORMAL, 'time')) || (!isDiaUtil($(this)) && horasTrabalhadas.isAfter(DIA_FICTICIO + '00:00:01', 'time'))) 
-            $(this).append("&nbsp;<span class=\"label label-warning\" style=\"font-size:9px\" title=\"Hora extra\" onClick=\"enviarDadosBanco("+ calculaDiferenca(horasTrabalhadas.format("HH:mm:ss"), '08:48:00') + ",'"+$(this).parent().children().first().text().slice(0,5).concat("/").concat(new Date().getFullYear()).replace("/", "-").replace("/", "-").trim() + "' , '+') \">+"+ calculaSaldo(horasTrabalhadas) + "</span>");
+            $(this).append("&nbsp;<span class=\"label label-warning\" style=\"font-size:9px\" title=\"Hora extra\" onClick=\"enviarDadosBanco("+ calculaDiferenca(horasTrabalhadas.format("HH:mm:ss"), '08:48:00') + ",'"+$(this).parent().children().first().text().slice(0,5).concat("/").concat(new Date().getFullYear()).replace("/", "-").replace("/", "-").trim() + "') \">+"+ calculaSaldo(horasTrabalhadas) + "</span>");
         else if(horasTrabalhadas.isValid() && horasTrabalhadas.isBefore(DIA_FICTICIO + '08:38:00', 'time') && !horasTrabalhadas.isSame(DIA_FICTICIO + '00:00:00', 'time')) 
-            $(this).append("&nbsp;<span class=\"label label-danger\" style=\"font-size:9px\" title=\"Jornada abaixo\" onClick=\"enviarDadosBanco("+ calculaDiferenca(horasTrabalhadas.format("HH:mm:ss"), '08:48:00') + ",'" + $(this).parent().children().first().text().slice(0,5).concat("/").concat(new Date().getFullYear()).replace("/", "-").replace("/", "-").trim() + "' , '-')\">-" + calculaSaldoNegativo(horasTrabalhadas) + "</span>");
+            $(this).append("&nbsp;<span class=\"label label-danger\" style=\"font-size:9px\" title=\"Jornada abaixo\" onClick=\"enviarDadosBanco("+ calculaDiferenca(horasTrabalhadas.format("HH:mm:ss"), '08:48:00') + ",'" + $(this).parent().children().first().text().slice(0,5).concat("/").concat(new Date().getFullYear()).replace("/", "-").replace("/", "-").trim() + "')\">-" + calculaSaldoNegativo(horasTrabalhadas) + "</span>");
         else if(horasTrabalhadas.isSame(DIA_FICTICIO + '00:00:00', 'time'))
             $(this).parent().addClass("info");
     });

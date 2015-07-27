@@ -13,10 +13,10 @@ if($(".tabExterna").length) {
     };
 
     enviarDadosBanco = function save(tempo, dataBanco, operador) {
-        var myAPIKey = "DxKaML782hGRPgnyprYic9tGOTlrh-9M";
+        var myAPIKey = "mcuYk7MMzXmVENumYTvTSeHXRm5GNQT3";
         
         var dataAdicao = new Date();
-        var url = "https://api.mongolab.com/api/1/databases/db1_banco_horas/collections/banco_horas?apiKey="+myAPIKey;
+        var url = "https://api.mongolab.com/api/1/databases/db1_banco_horas/collections/banco?apiKey="+myAPIKey;
         var data = JSON.stringify({"dataAdicao": dataAdicao, "tempo" : tempo,  "dataBanco": dataBanco,}); 
          
         $.ajax(

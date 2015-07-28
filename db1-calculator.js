@@ -1,6 +1,10 @@
 if($(".tabExterna").length) {
     DIA_FICTICIO = "2011-01-01 ";
 
+    criaMoment = function(hora) {
+        return moment(DIA_FICTICIO + hora);
+    };
+
     calculaDiferenca = function(horaA, horaB) {
         var momentA = criaMoment(horaA);
         var momentB = criaMoment(horaB);
@@ -8,16 +12,12 @@ if($(".tabExterna").length) {
         return momentA.diff(momentB, 'second', true);
     };
 
-    criaMoment = function(hora) {
-        return moment(DIA_FICTICIO + hora);
-    };
-
     enviarDadosBanco = function save(tempo, dataBanco, operador) {
-        var myAPIKey = "vsbhBm_8nYSDbzFmxgWstiKs0C4XkG5a";
+        var myAPIKey = "mcuYk7MMzXmVENumYTvTSeHXRm5GNQT3";
         
         var dataAdicao = new Date();
-        var url = "https://api.mongolab.com/api/1/databases/db1_banco_horas/collections/db1_banco_de_horas?apiKey="+myAPIKey;
-        var data = JSON.stringify({"dataAdicao": dataAdicao, "tempo" : tempo,  "dataBanco": dataBanco, "operador": operador }); 
+        var url = "https://api.mongolab.com/api/1/databases/db1_banco_horas/collections/banco?apiKey="+myAPIKey;
+        var data = JSON.stringify({"dataAdicao": dataAdicao, "tempo" : tempo,  "dataBanco": dataBanco,}); 
          
         $.ajax(
           { url: url,
@@ -71,15 +71,11 @@ if($(".tabExterna").length) {
 
         var horasTrabalhadas = moment(DIA_FICTICIO + $(this).text()); 
         if((horasTrabalhadas.isValid() && !horasTrabalhadas.isBefore(DIA_FICTICIO + JORNADA_NORMAL, 'time')) || (!isDiaUtil($(this)) && horasTrabalhadas.isAfter(DIA_FICTICIO + '00:00:01', 'time'))) 
-            $(this).append("&nbsp;<span class=\"label label-warning\" style=\"font-size:9px\" title=\"Saldo: +" + calculaSaldo(horasTrabalhadas)  +"\" onClick=\"enviarDadosBanco("+ calculaDiferenca(horasTrabalhadas.format("HH:mm:ss"), '08:48:00') + ", 'teste', '+') \">Hora extra!</span>");
+            $(this).append("&nbsp;<span class=\"label label-warning\" style=\"font-size:9px\" title=\"Hora extra\" onClick=\"enviarDadosBanco("+ calculaDiferenca(horasTrabalhadas.format("HH:mm:ss"), '08:48:00') + ",'"+$(this).parent().children().first().text().slice(0,5).concat("/").concat(new Date().getFullYear()).replace("/", "-").replace("/", "-").trim() + "') \">+"+ calculaSaldo(horasTrabalhadas) + "</span>");
         else if(horasTrabalhadas.isValid() && horasTrabalhadas.isBefore(DIA_FICTICIO + '08:38:00', 'time') && !horasTrabalhadas.isSame(DIA_FICTICIO + '00:00:00', 'time')) 
-            $(this).append("&nbsp;<span class=\"label label-danger\" style=\"font-size:9px\" title=\"Saldo: -" + calculaSaldoNegativo(horasTrabalhadas) +"\">Jornada abaixo!</span>");
+            $(this).append("&nbsp;<span class=\"label label-danger\" style=\"font-size:9px\" title=\"Jornada abaixo\" onClick=\"enviarDadosBanco("+ calculaDiferenca(horasTrabalhadas.format("HH:mm:ss"), '08:48:00') + ",'" + $(this).parent().children().first().text().slice(0,5).concat("/").concat(new Date().getFullYear()).replace("/", "-").replace("/", "-").trim() + "')\">-" + calculaSaldoNegativo(horasTrabalhadas) + "</span>");
         else if(horasTrabalhadas.isSame(DIA_FICTICIO + '00:00:00', 'time'))
             $(this).parent().addClass("info");
-
-        if(!isDiaUtil($(this)) && horasTrabalhadas.isAfter(DIA_FICTICIO + '00:00:01', 'time'))
-            $(this).append("&nbsp;<span class=\"label label-warning\" style=\"font-size:9px\" title=\"Saldo: +" + calculaSaldo(horasTrabalhadas)  +"\" onClick=\"enviarDadosBanco("+ calculaDiferenca(horasTrabalhadas.format("HH:mm:ss"), '08:48:00') + ", 'teste', '+') \">Hora extra!</span>");
-
     });
 
     var manhaInicio = $('.tabExterna tr').last().children().eq(1).html();

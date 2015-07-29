@@ -1,4 +1,37 @@
 if($(".tabExterna").length) {
+    function Ponto() {
+        this.diaBase = "2011-01-01 ";
+        this.jornadaExtra = "08:58:00";
+        this.jornadaNormal = "08:48:00";
+        this.jornadaMinima = "08:38:00";
+        this.horasTrabalhadas = {};
+
+        this.calculaDiferenca = function(horaA, horaB) {
+            var momentA = criaMoment(horaA);
+            var momentB = criaMoment(horaB);
+
+            return momentA.diff(momentB, 'second', true);
+        };
+
+        this.calculaSaldoHHMMSS = function() {
+            var day = moment(this.diaBase);
+            return day.add(calculaDiferenca(this.horasTrabalhadas.format("HH:mm:ss"), '08:48:00'), "second").format("HH:mm:ss");
+        };        
+
+        this.calculaSaldoNegativoHHMMSS = function() {
+            var day = moment(this.diaBase);
+            return day.subtract(calculaDiferenca(this.horasTrabalhadas.format("HH:mm:ss"), '08:48:00'), "second").format("HH:mm:ss");
+        };
+
+        this.setHorasTrabalhadas = function(horas) {
+            this.horasTrabalhadas = moment(this.diaBase + horas); 
+        }
+
+        this.calculaSaldo = function() {
+            return calculaDiferenca(this.horasTrabalhadas.format("HH:mm:ss"), '08:48:00');
+        }
+    }
+
     DIA_FICTICIO = "2011-01-01 ";
 
     criaMoment = function(hora) {
@@ -12,7 +45,7 @@ if($(".tabExterna").length) {
         return momentA.diff(momentB, 'second', true);
     };
 
-    enviarDadosBanco = function save(tempo, dataBanco, operador) {
+    enviarDadosBanco = function save(tempo, dataBanco) {
         var myAPIKey = "mcuYk7MMzXmVENumYTvTSeHXRm5GNQT3";
         
         var dataAdicao = new Date();
@@ -26,7 +59,6 @@ if($(".tabExterna").length) {
               contentType: "application/json" 
           });
     }
-
 
     // gambeta para carregar css
     var cssId = 'myCss';
@@ -59,22 +91,14 @@ if($(".tabExterna").length) {
             return elemento.parent().children().first().text().indexOf("Sab.") < 0 && elemento.parent().children().first().text().indexOf("Dom.") < 0;
         }
 
-        var calculaSaldo = function(horasTrabalhadas) {
-            var day = moment(DIA_FICTICIO);
-            return day.add(calculaDiferenca(horasTrabalhadas.format("HH:mm:ss"), '08:48:00'), "second").format("HH:mm:ss");
-        }        
+        var jornada = new Ponto();
+        jornada.setHorasTrabalhadas($(this).text());
 
-        var calculaSaldoNegativo = function(horasTrabalhadas) {
-            var day = moment(DIA_FICTICIO);
-            return day.subtract(calculaDiferenca(horasTrabalhadas.format("HH:mm:ss"), '08:48:00'), "second").format("HH:mm:ss");
-        }
-
-        var horasTrabalhadas = moment(DIA_FICTICIO + $(this).text()); 
-        if((horasTrabalhadas.isValid() && !horasTrabalhadas.isBefore(DIA_FICTICIO + JORNADA_NORMAL, 'time')) || (!isDiaUtil($(this)) && horasTrabalhadas.isAfter(DIA_FICTICIO + '00:00:01', 'time'))) 
-            $(this).append("&nbsp;<span class=\"label label-warning\" style=\"font-size:9px\" title=\"Hora extra\" onClick=\"enviarDadosBanco("+ calculaDiferenca(horasTrabalhadas.format("HH:mm:ss"), '08:48:00') + ",'"+$(this).parent().children().first().text().slice(0,5).concat("/").concat(new Date().getFullYear()).replace("/", "-").replace("/", "-").trim() + "') \">+"+ calculaSaldo(horasTrabalhadas) + "</span>");
-        else if(horasTrabalhadas.isValid() && horasTrabalhadas.isBefore(DIA_FICTICIO + '08:38:00', 'time') && !horasTrabalhadas.isSame(DIA_FICTICIO + '00:00:00', 'time')) 
-            $(this).append("&nbsp;<span class=\"label label-danger\" style=\"font-size:9px\" title=\"Jornada abaixo\" onClick=\"enviarDadosBanco("+ calculaDiferenca(horasTrabalhadas.format("HH:mm:ss"), '08:48:00') + ",'" + $(this).parent().children().first().text().slice(0,5).concat("/").concat(new Date().getFullYear()).replace("/", "-").replace("/", "-").trim() + "')\">-" + calculaSaldoNegativo(horasTrabalhadas) + "</span>");
-        else if(horasTrabalhadas.isSame(DIA_FICTICIO + '00:00:00', 'time'))
+        if((jornada.horasTrabalhadas.isValid() && !jornada.horasTrabalhadas.isBefore(DIA_FICTICIO + JORNADA_NORMAL, 'time')) || (!isDiaUtil($(this)) && jornada.horasTrabalhadas.isAfter(DIA_FICTICIO + '00:00:01', 'time'))) 
+            $(this).append("&nbsp;<span class=\"label label-warning\" style=\"font-size:9px\" title=\"Hora extra\" onClick=\"enviarDadosBanco("+ jornada.calculaSaldo() + ",'"+$(this).parent().children().first().text().slice(0,5).concat("/").concat(new Date().getFullYear()).replace("/", "-").replace("/", "-").trim() + "') \">+"+ jornada.calculaSaldoHHMMSS() + "</span>");
+        else if(jornada.horasTrabalhadas.isValid() && jornada.horasTrabalhadas.isBefore(DIA_FICTICIO + '08:38:00', 'time') && !jornada.horasTrabalhadas.isSame(DIA_FICTICIO + '00:00:00', 'time')) 
+            $(this).append("&nbsp;<span class=\"label label-danger\" style=\"font-size:9px\" title=\"Jornada abaixo\" onClick=\"enviarDadosBanco("+ jornada.calculaSaldo() + ",'" + $(this).parent().children().first().text().slice(0,5).concat("/").concat(new Date().getFullYear()).replace("/", "-").replace("/", "-").trim() + "')\">-" + jornada.calculaSaldoNegativoHHMMSS() + "</span>");
+        else if(jornada.horasTrabalhadas.isSame(DIA_FICTICIO + '00:00:00', 'time'))
             $(this).parent().addClass("info");
     });
 

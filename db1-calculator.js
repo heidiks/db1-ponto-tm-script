@@ -1,16 +1,16 @@
+calculaDiferenca = function(horaA, horaB) {
+    var momentA = criaMoment(horaA);
+    var momentB = criaMoment(horaB);
+
+    return momentA.diff(momentB, 'second', true);
+};
+
 function PontoBase() {
     this.diaBase = "2011-01-01 ";
     this.jornadaExtra = "08:58:00";
     this.jornadaNormal = "08:48:00";
     this.jornadaMinima = "08:38:00";
     this.horasTrabalhadas = {};
-
-    this.calculaDiferenca = function(horaA, horaB) {
-        var momentA = criaMoment(horaA);
-        var momentB = criaMoment(horaB);
-
-        return momentA.diff(momentB, 'second', true);
-    };
 
     this.setHorasTrabalhadas = function(horas) {
         this.horasTrabalhadas = moment(this.diaBase + horas);
@@ -20,23 +20,23 @@ function PontoBase() {
 function PontoSaldo() {
     this.calculaSaldoHHMMSS = function() {
         var day = moment(this.diaBase);
-        return day.add(calculaDiferenca(this.horasTrabalhadas.format("HH:mm:ss"), '08:48:00'), "second").format("HH:mm:ss");
+        return day.add(calculaDiferenca(this.horasTrabalhadas.format("HH:mm:ss"),  this.jornadaNormal), "second").format("HH:mm:ss");
     };
 
     this.calculaSaldoNegativoHHMMSS = function() {
         var day = moment(this.diaBase);
-        return day.subtract(calculaDiferenca(this.horasTrabalhadas.format("HH:mm:ss"), '08:48:00'), "second").format("HH:mm:ss");
+        return day.subtract(calculaDiferenca(this.horasTrabalhadas.format("HH:mm:ss"),  this.jornadaNormal), "second").format("HH:mm:ss");
     };
 
     this.calculaSaldo = function() {
-        return calculaDiferenca(this.horasTrabalhadas.format("HH:mm:ss"), '08:48:00');
+        return calculaDiferenca(this.horasTrabalhadas.format("HH:mm:ss"),  this.jornadaNormal);
     };
 
-    this.isHoraExtra() = function() {
-        return !this.horasTrabalhadas.isBefore(this.diaBase + this.jornadaExtra, 'time'));
+    this.isHoraExtra = function() {
+        return !this.horasTrabalhadas.isBefore(this.diaBase + this.jornadaExtra, 'time');
     };
 
-    this.isJornadaAbaixo() = function () {
+    this.isJornadaAbaixo = function () {
         return this.horasTrabalhadas.isBefore(this.diaBase + this.jornadaMinima, 'time');
     };
 
@@ -60,14 +60,12 @@ function PontoHoje(manhaInicio, manhaFim, tardeInicio, tardeFim) {
     };
 
     this.horaAtualTrabalhadas = function() {
-        return moment(this.diaBase).add(periodoTrabalhadoManha() + calculaDiferenca(timeNow(), this.tardeInicio), "second");
+        return moment(this.diaBase).add(this.periodoTrabalhadoManha() + calculaDiferenca(this.timeNow(), this.tardeInicio), "second");
     };
 
     this.porcentagem_horaAtualTrabalhadas = function() {
-        return (periodoTrabalhadoManha() + calculaDiferenca(timeNow(), this.tardeInicio)) * 100 / this.jornadaMinimaTotalSegundos;
+        return (this.periodoTrabalhadoManha() + calculaDiferenca(this.timeNow(), this.tardeInicio)) * 100 / this.jornadaMinimaTotalSegundos;
     };
-
-    this.horaSaida = criaMoment(this.tardeInicio).add(this.jornadaMinimaTotalSegundos - periodoTrabalhadoManha(), "second");
 
 }
 
@@ -77,7 +75,7 @@ PontoHoje.prototype = new PontoBase();
 if($(".tabExterna").length) {
 
     criaMoment = function(hora) {
-        return moment('08:58:00' + hora);
+        return moment('2011-01-01 ' + hora);
     };
 
     enviarDadosBanco = function save(tempo, dataBanco) {
@@ -128,7 +126,7 @@ if($(".tabExterna").length) {
         var jornada = new PontoSaldo();
         jornada.setHorasTrabalhadas($(this).text());
 
-        if((jornada.horasTrabalhadas.isValid() && jornada.isHoraExtra() || (!isDiaUtil($(this)) && jornada.horasTrabalhadas.isAfter(jornada.diaBase + '00:00:01', 'time')))
+        if((jornada.horasTrabalhadas.isValid() && jornada.isHoraExtra() || (!isDiaUtil($(this)) && jornada.horasTrabalhadas.isAfter(jornada.diaBase + '00:00:01', 'time'))))
             $(this).append("&nbsp;<span class=\"label label-warning\" style=\"font-size:9px\" title=\"Hora extra\" onClick=\"enviarDadosBanco("+ jornada.calculaSaldo() + ",'"+$(this).parent().children().first().text().slice(0,5).concat("/").concat(new Date().getFullYear()).replace("/", "-").replace("/", "-").trim() + "') \">+"+ jornada.calculaSaldoHHMMSS() + "</span>");
         else if(jornada.horasTrabalhadas.isValid() && jornada.isJornadaAbaixo() && !jornada.horasTrabalhadas.isSame(jornada.diaBase + '00:00:00', 'time'))
             $(this).append("&nbsp;<span class=\"label label-danger\" style=\"font-size:9px\" title=\"Jornada abaixo\" onClick=\"enviarDadosBanco("+ jornada.calculaSaldo() + ",'" + $(this).parent().children().first().text().slice(0,5).concat("/").concat(new Date().getFullYear()).replace("/", "-").replace("/", "-").trim() + "')\">-" + jornada.calculaSaldoNegativoHHMMSS() + "</span>");
@@ -142,7 +140,7 @@ if($(".tabExterna").length) {
     var tardeFim = $('.tabExterna tr').last().children().eq(4).html();
 
     if(manhaInicio != "" && manhaFim != "" && tardeInicio != "" && tardeFim == "") {
-        var pontoHoje = new PontoHoje(manhaInicio, manhaFim, tardeInicio, tardeFim);
+        pontoHoje = new PontoHoje(manhaInicio, manhaFim, tardeInicio, tardeFim);
 
         refresh = function() {
             $("#horarioCumprido").text(pontoHoje.horaAtualTrabalhadas().format("HH:mm"));
@@ -151,8 +149,9 @@ if($(".tabExterna").length) {
             $("#progress-bar").css("width", porcentagem + "%").text(parseInt(porcentagem) +"%");
         };
 
+        var horaSaida = criaMoment(pontoHoje.tardeInicio).add(pontoHoje.jornadaMinimaTotalSegundos - pontoHoje.periodoTrabalhadoManha(), "second");
 
-        if (typeof pontoHoje.manhaInicio != 'undefined' && typeof pontoHoje.manhaFim != 'undefined' && typeof pontoHoje.tardeInicio != 'undefined' && pontoHoje.horaSaida.isValid()) {
+        if (typeof pontoHoje.manhaInicio != 'undefined' && typeof pontoHoje.manhaFim != 'undefined' && typeof pontoHoje.tardeInicio != 'undefined' && horaSaida.isValid()) {
             $(".tabExterna").parent().prepend(
                 "<div align=\"center\">" +
                 "<button class=\"btn btn-default pull-right glyphicon glyphicon-refresh\" onClick=\"refresh()\"></button>" +
@@ -164,9 +163,9 @@ if($(".tabExterna").length) {
                 "</div>" +
                 "</div>" +
                 "<h4>Jornada:</h4>\n" +
-                "<h4><span class=\"label label-success\">M&iacute;nima: " + pontoHoje.horaSaida.subtract(10, 'minutes').format("HH:mm") + "</span>\n" +
-                "<span class=\"label label-primary\">Normal: " + pontoHoje.horaSaida.add(10, 'minutes').format("HH:mm") + "</span>\n" +
-                "<span class=\"label label-warning\">Extra: " + pontoHoje.horaSaida.add(10, 'minutes').format("HH:mm") + "</span> </h4>\n" +
+                "<h4><span class=\"label label-success\">M&iacute;nima: " + horaSaida.subtract(10, 'minutes').format("HH:mm") + "</span>\n" +
+                "<span class=\"label label-primary\">Normal: " + horaSaida.add(10, 'minutes').format("HH:mm") + "</span>\n" +
+                "<span class=\"label label-warning\">Extra: " + horaSaida.add(10, 'minutes').format("HH:mm") + "</span> </h4>\n" +
                 "</div>\n" +
                 "</div>"
             );

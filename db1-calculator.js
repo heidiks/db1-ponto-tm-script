@@ -32,11 +32,11 @@ function PontoSaldo() {
         return calculaDiferenca(this.horasTrabalhadas.format("HH:mm:ss"), '08:48:00');
     };
 
-    this.isHoraExtra() = function() {
+    this.isHoraExtra = function() {
         return !this.horasTrabalhadas.isBefore(this.diaBase + this.jornadaExtra, 'time'));
     };
 
-    this.isJornadaAbaixo() = function () {
+    this.isJornadaAbaixo = function () {
         return this.horasTrabalhadas.isBefore(this.diaBase + this.jornadaMinima, 'time');
     };
 
@@ -128,7 +128,7 @@ if($(".tabExterna").length) {
         var jornada = new PontoSaldo();
         jornada.setHorasTrabalhadas($(this).text());
 
-        if((jornada.horasTrabalhadas.isValid() && jornada.isHoraExtra() || (!isDiaUtil($(this)) && jornada.horasTrabalhadas.isAfter(jornada.diaBase + '00:00:01', 'time')))
+        if((jornada.horasTrabalhadas.isValid() && jornada.isHoraExtra() || (!isDiaUtil($(this)) && jornada.horasTrabalhadas.isAfter(jornada.diaBase + '00:00:01', 'time'))))
             $(this).append("&nbsp;<span class=\"label label-warning\" style=\"font-size:9px\" title=\"Hora extra\" onClick=\"enviarDadosBanco("+ jornada.calculaSaldo() + ",'"+$(this).parent().children().first().text().slice(0,5).concat("/").concat(new Date().getFullYear()).replace("/", "-").replace("/", "-").trim() + "') \">+"+ jornada.calculaSaldoHHMMSS() + "</span>");
         else if(jornada.horasTrabalhadas.isValid() && jornada.isJornadaAbaixo() && !jornada.horasTrabalhadas.isSame(jornada.diaBase + '00:00:00', 'time'))
             $(this).append("&nbsp;<span class=\"label label-danger\" style=\"font-size:9px\" title=\"Jornada abaixo\" onClick=\"enviarDadosBanco("+ jornada.calculaSaldo() + ",'" + $(this).parent().children().first().text().slice(0,5).concat("/").concat(new Date().getFullYear()).replace("/", "-").replace("/", "-").trim() + "')\">-" + jornada.calculaSaldoNegativoHHMMSS() + "</span>");

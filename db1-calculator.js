@@ -82,7 +82,7 @@ function PontoConferencia() {
     };
 
     this.isRelatorioConferenciaTask = function() {
-        return this.relatorio = this.REL_CONFERENCIA_HORAS;
+        return this.relatorio == this.REL_CONFERENCIA_HORAS;
     };
 
     this.isAjustavel = function(diferenca) {
@@ -144,15 +144,13 @@ if($(".tabExterna").length) {
 
     $(".tabExterna th:last-child, .tabExterna td:last-child").each(function(index) {
         // TODO Refact if's
-        if(confTaskPonto.isRelatorioConferenciaTask()) {
-            if(confTaskPonto.isAjustavel($(this).text())) {
-                if($(this).parent().children().first().text() == "TOTAL")
-                    $(this).addClass("label-danger");
-                else    
-                    $(this).parent().addClass("danger");
+        if(confTaskPonto.isRelatorioConferenciaTask() && confTaskPonto.isAjustavel($(this).text())) {
+            if($(this).parent().children().first().text() == "TOTAL")
+                $(this).addClass("label-danger");
+            else    
+                $(this).parent().addClass("danger");
 
-                $(this).parent().prop("title", "(Ponto - Task) superior \u00e0 3 horas!");
-            }
+            $(this).parent().prop("title", "(Ponto - Task) superior \u00e0 3 horas!");
         } else {
             if((index == 0 && $(this).text() != "Total Horas"))
                 return false;

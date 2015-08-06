@@ -15,7 +15,6 @@ function PontoBase() {
     this.setHorasTrabalhadas = function(horas) {
         this.horasTrabalhadas = moment(this.diaBase + horas);
     };
-
 }
 
 function PontoSaldo() {
@@ -72,26 +71,6 @@ function PontoHoje(manhaInicio, manhaFim, tardeInicio, tardeFim) {
 
 PontoHoje.prototype = new PontoBase();
 
-function PontoConferencia() {
-    this.relatorio = "";
-    this.REL_CONFERENCIA_HORAS = "REL_CONFERENCIA_HORAS";
-    this.tempoParaAjuste = "03:00:00";
-
-    this.setRelatorio = function() {
-        this.relatorio = this.REL_CONFERENCIA_HORAS;
-    };
-
-    this.isRelatorioConferenciaTask = function() {
-        return this.relatorio = this.REL_CONFERENCIA_HORAS;
-    };
-
-    this.isAjustavel = function(diferenca) {
-        return criaMoment(diferenca.replace("-","")).isAfter(this.diaBase + this.tempoParaAjuste, 'time'); 
-    }
-}
-
-PontoConferencia.prototype = new PontoBase();
-
 
 if($(".tabExterna").length) {
 
@@ -136,39 +115,23 @@ if($(".tabExterna").length) {
         $("#impRelIndividual").css("width", "55%");
     }
 
-    var confTaskPonto = new PontoConferencia();
-
-    if($("#impRelIndividual tbody tr td").first().text() == "Relatório de Conferência de Horas")
-        confTaskPonto.setRelatorio();
-
-
     $(".tabExterna th:last-child, .tabExterna td:last-child").each(function(index) {
-        // TODO Refact if's
-        if(confTaskPonto.isRelatorioConferenciaTask() && confTaskPonto.isAjustavel($(this).text())) {
-            if($(this).parent().children().first().text() == "TOTAL")
-                $(this).addClass("label-danger");
-            else    
-                $(this).parent().addClass("danger");
-            
-            $(this).parent().prop("title", "(Ponto - Task) superior \u00e0 3 horas!");
-        } else {
-            if((index == 0 && $(this).text() != "Total Horas"))
-                return false;
+        if((index == 0 && $(this).text() != "Total Horas"))
+            return false;
 
-            isDiaUtil = function(elemento) {
-                return elemento.parent().children().first().text().indexOf("Sab.") < 0 && elemento.parent().children().first().text().indexOf("Dom.") < 0;
-            };
+        isDiaUtil = function(elemento) {
+            return elemento.parent().children().first().text().indexOf("Sab.") < 0 && elemento.parent().children().first().text().indexOf("Dom.") < 0;
+        };
 
-            var jornada = new PontoSaldo();
-            jornada.setHorasTrabalhadas($(this).text());
+        var jornada = new PontoSaldo();
+        jornada.setHorasTrabalhadas($(this).text());
 
-            if((jornada.horasTrabalhadas.isValid() && jornada.isHoraExtra() || (!isDiaUtil($(this)) && jornada.horasTrabalhadas.isAfter(jornada.diaBase + '00:00:01', 'time'))))
-                $(this).append("&nbsp;<span class=\"label label-warning\" style=\"font-size:9px\" title=\"Hora extra\" onClick=\"enviarDadosBanco("+ jornada.calculaSaldo() + ",'"+$(this).parent().children().first().text().slice(0,5).concat("/").concat(new Date().getFullYear()).replace("/", "-").replace("/", "-").trim() + "') \">+"+ jornada.calculaSaldoHHMMSS() + "</span>");
-            else if(jornada.horasTrabalhadas.isValid() && jornada.isJornadaAbaixo() && !jornada.horasTrabalhadas.isSame(jornada.diaBase + '00:00:00', 'time'))
-                $(this).append("&nbsp;<span class=\"label label-danger\" style=\"font-size:9px\" title=\"Jornada abaixo\" onClick=\"enviarDadosBanco("+ jornada.calculaSaldo() + ",'" + $(this).parent().children().first().text().slice(0,5).concat("/").concat(new Date().getFullYear()).replace("/", "-").replace("/", "-").trim() + "')\">-" + jornada.calculaSaldoNegativoHHMMSS() + "</span>");
-            else if(jornada.horasTrabalhadas.isSame(jornada.diaBase + '00:00:00', 'time'))
-                $(this).parent().addClass("info");
-        }
+        if((jornada.horasTrabalhadas.isValid() && jornada.isHoraExtra() || (!isDiaUtil($(this)) && jornada.horasTrabalhadas.isAfter(jornada.diaBase + '00:00:01', 'time'))))
+            $(this).append("&nbsp;<span class=\"label label-warning\" style=\"font-size:9px\" title=\"Hora extra\" onClick=\"enviarDadosBanco("+ jornada.calculaSaldo() + ",'"+$(this).parent().children().first().text().slice(0,5).concat("/").concat(new Date().getFullYear()).replace("/", "-").replace("/", "-").trim() + "') \">+"+ jornada.calculaSaldoHHMMSS() + "</span>");
+        else if(jornada.horasTrabalhadas.isValid() && jornada.isJornadaAbaixo() && !jornada.horasTrabalhadas.isSame(jornada.diaBase + '00:00:00', 'time'))
+            $(this).append("&nbsp;<span class=\"label label-danger\" style=\"font-size:9px\" title=\"Jornada abaixo\" onClick=\"enviarDadosBanco("+ jornada.calculaSaldo() + ",'" + $(this).parent().children().first().text().slice(0,5).concat("/").concat(new Date().getFullYear()).replace("/", "-").replace("/", "-").trim() + "')\">-" + jornada.calculaSaldoNegativoHHMMSS() + "</span>");
+        else if(jornada.horasTrabalhadas.isSame(jornada.diaBase + '00:00:00', 'time'))
+            $(this).parent().addClass("info");
     });
 
     var manhaInicio = $('.tabExterna tr').last().children().eq(1).html();

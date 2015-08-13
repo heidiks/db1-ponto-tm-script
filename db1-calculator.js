@@ -19,9 +19,12 @@ function PontoBase() {
 }
 
 function PontoSaldo() {
-    this.calculaSaldoHHMMSS = function() {
+    this.calculaSaldoHHMMSS = function(diaUtil) {
         var day = moment(this.diaBase);
-        return day.add(calculaDiferenca(this.horasTrabalhadas.format("HH:mm:ss"),  this.jornadaNormal), "second").format("HH:mm:ss");
+        if(diaUtil) 
+            return day.add(calculaDiferenca(this.horasTrabalhadas.format("HH:mm:ss"),  this.jornadaNormal), "second").format("HH:mm:ss");
+
+        return this.horasTrabalhadas.format("HH:mm:ss");
     };
 
     this.calculaSaldoNegativoHHMMSS = function() {
@@ -87,7 +90,7 @@ function PontoConferencia() {
 
     this.isAjustavel = function(diferenca) {
         return criaMoment(diferenca.replace("-","")).isAfter(this.diaBase + this.tempoParaAjuste, 'time'); 
-    }
+    };
 }
 
 PontoConferencia.prototype = new PontoBase();
@@ -165,9 +168,9 @@ if($(".tabExterna").length) {
             jornada.setHorasTrabalhadas($(this).text());
 
             if((jornada.horasTrabalhadas.isValid() && jornada.isHoraExtra() || (!isDiaUtil($(this)) && jornada.horasTrabalhadas.isAfter(jornada.diaBase + '00:00:01', 'time'))))
-                $(this).append("&nbsp;<span class=\"label label-warning\" style=\"font-size:9px\" title=\"Hora extra\" onClick=\"enviarDadosBanco("+ jornada.calculaSaldo() + ",'"+$(this).parent().children().first().text().slice(0,5).concat("/").concat(new Date().getFullYear()).replace("/", "-").replace("/", "-").trim() + "') \">+"+ jornada.calculaSaldoHHMMSS() + "</span>");
+                $(this).append("&nbsp;<span class=\"label label-warning\" style=\"font-size:9px\" title=\"Hora extra\">+"+ jornada.calculaSaldoHHMMSS(isDiaUtil($(this))) + "</span>");
             else if(jornada.horasTrabalhadas.isValid() && jornada.isJornadaAbaixo() && !jornada.horasTrabalhadas.isSame(jornada.diaBase + '00:00:00', 'time'))
-                $(this).append("&nbsp;<span class=\"label label-danger\" style=\"font-size:9px\" title=\"Jornada abaixo\" onClick=\"enviarDadosBanco("+ jornada.calculaSaldo() + ",'" + $(this).parent().children().first().text().slice(0,5).concat("/").concat(new Date().getFullYear()).replace("/", "-").replace("/", "-").trim() + "')\">-" + jornada.calculaSaldoNegativoHHMMSS() + "</span>");
+                $(this).append("&nbsp;<span class=\"label label-danger\" style=\"font-size:9px\" title=\"Jornada abaixo\">-" + jornada.calculaSaldoNegativoHHMMSS() + "</span>");
             else if(jornada.horasTrabalhadas.isSame(jornada.diaBase + '00:00:00', 'time'))
                 $(this).parent().addClass("info");
         }

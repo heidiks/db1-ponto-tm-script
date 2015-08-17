@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         DB1 ponto calculator
 // @namespace    https://github.com/heidiks/db1-ponto-tm-script
-// @version      0.2.2
+// @version      0.2.3
 // @description  DB1 ponto calculator 
 // @author       Heidi Kussakawa
 // @match        http://ponto.db1.com.br/ponto/*

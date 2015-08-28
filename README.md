@@ -9,4 +9,8 @@
 ## Instalação
  - Instale a extensão
  - Adicione ou atualize o script [AQUI](https://github.com/heidiks/db1-ponto-tm-script/raw/master/TM-calculator.user.js)
- - Acesse http://ponto.db1.com.br/ponto/pages/login.jsf
+ - Acesse http://ponto.db1.com.br/ponto/pages/login.jsf > Relatório
+
+## TO DO
+ - Suporte a mais de 4 horários
+ - Builder

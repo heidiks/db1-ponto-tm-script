@@ -1,11 +1,16 @@
-# DB1 ponto calculator TM
-
+# DB1 ponto calculator
 
 ## Requisitos
  - Google Chrome
- - TamperMonkey: https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo
+    - TamperMonkey: https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo
+ - Firefox
+    - GreaseMonkey: https://addons.mozilla.org/firefox/downloads/latest/748/addon-748-latest.xpi?src=dp-btn-primary
 
 ## Instalação
- - Instale tampermonkey
- - Adicione o script [aqui](https://github.com/heidiks/db1-ponto-tm-script/raw/master/TM-calculator.user.js)
- - Acesse http://ponto.db1.com.br/ponto/pages/login.jsf
+ - Instale a extensão
+ - Adicione ou atualize o script [AQUI](https://github.com/heidiks/db1-ponto-tm-script/raw/master/TM-calculator.user.js)
+ - Acesse http://ponto.db1.com.br/ponto/pages/login.jsf > Relatório
+
+## TO DO
+ - Suporte a mais de 4 horários
+ - Builder

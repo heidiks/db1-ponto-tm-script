@@ -8,7 +8,8 @@
 // @grant        none
 // @require      http://code.jquery.com/jquery-latest.js
 // ==/UserScript==
-
-$.getScript( "http://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.2/moment.min.js" ).done(function() {
-    $.getScript("https://cdn.rawgit.com/heidiks/db1-ponto-tm-script/3e8b5813ba641818dac9507b32aca0460f961adc/db1-calculator.js");
+$.getScript( "https://cdn.rawgit.com/ggamaral90/db1-ponto-tm-script/master/load-style.js" ).done(function() {
+    $.getScript( "http://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.2/moment.min.js" ).done(function() {
+        $.getScript("https://cdn.rawgit.com/heidiks/db1-ponto-tm-script/3e8b5813ba641818dac9507b32aca0460f961adc/db1-calculator.js");
+    });
 });

@@ -8,5 +8,5 @@
 
 ## Instalação
  - Instale a extensão
- - Adicione ou atualize o script [AQUI](https://github.com/heidiks/db1-ponto-tm-script/raw/master/TM-calculator.user.js)
+ - Adicione ou atualize o script [AQUI](https://github.com/ggamaral90/db1-ponto-tm-script/raw/master/TM-calculator.user.js)
  - Acesse http://ponto.db1.com.br/ponto/pages/login.jsf

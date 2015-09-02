@@ -107,7 +107,7 @@ if($(".tabExterna").length) {
 
         var dataAdicao = new Date();
         var url = "https://api.mongolab.com/api/1/databases/db1_banco_horas/collections/banco?apiKey="+myAPIKey;
-        var data = JSON.stringify({"dataAdicao": dataAdicao, "tempo" : tempo,  "dataBanco": dataBanco,});
+        var data = JSON.stringify({"dataAdicao": dataAdicao, "tempo" : tempo,  "dataBanco": dataBanco});
 
         $.ajax(
             { url: url,
@@ -117,19 +117,7 @@ if($(".tabExterna").length) {
             });
     };
 
-    // gambeta para carregar css
-    var cssId = 'myCss';
-    if (!document.getElementById(cssId))
-    {
-        var head  = document.getElementsByTagName('head')[0];
-        var link  = document.createElement('link');
-        link.id   = cssId;
-        link.rel  = 'stylesheet';
-        link.type = 'text/css';
-        link.href = 'https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.4/css/bootstrap.min.css';
-        link.media = 'all';
-        head.appendChild(link);
-    }
+
 
     $(".tabExterna").addClass(" table table-striped table-bordered table-hover");
     $(".tabExterna").parent().parent().next().children().addClass("alert alert-warning");
@@ -213,38 +201,4 @@ if($(".tabExterna").length) {
             );
         }
     }
-}
-
-// VAI COMEÇAR A BAGAÇEIRA KKKKK
-
-if($(".tr_cont").length) {
-
-    var cardapioVisivel = false;
-
-    appendNewDiv = function (container, idNewDiv) {
-        container.append("<div id=\"" +idNewDiv+ "\"></div>");
-        return $("#"+idNewDiv);
-    };
-
-    //INIT
-    var content = appendNewDiv($(".tr_cont").parent().parent(),"content");
-
-    exibirCardapio = function() {
-        if(!cardapioVisivel) {
-            var divCardapio = appendNewDiv(content,"cardapio");
-            divCardapio.append("<iframe width=\"100%\" height=\"100%\" src=\"http://www.gastronomiacolherdepau.com.br.usrfiles.com/html/36e98f_eb1aa3ea000108896b1ae72b4c069a5e.html\"></iframe>");
-            cardapioVisivel = true;
-        }
-    };
-
-    abrirPedido = function() {
-
-    };
-
-    // criando e adicionado os botoes
-    var btnCardapio = "<button class=\"btn btn-default pull-right glyphicon glyphicon-lst-alt\" onClick=\"exibirCardapio()\">Cardápio do dia</button>";
-    var btnPedido = "<button class=\"btn btn-default pull-right glyphicon glyphicon-clutery\" onClick=\"abrirPedido()\">Fazer Pedido</button>";
-    var divBotoes = appendNewDiv(content, "botoes");
-    divBotoes.append(btnCardapio).append(btnPedido);
-
 }

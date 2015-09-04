@@ -82,9 +82,9 @@ function PontoHoje(p1, p2, p3, p4, p5, p6) {
 
     this.ultimoPonto = function() {
         if(this.isTerceiroPeriodo())
-            return this.p3;
+            return this.p5;
 
-        return this.p5
+        return this.p3;
     }
 
 }

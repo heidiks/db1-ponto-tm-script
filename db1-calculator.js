@@ -57,6 +57,7 @@ function PontoHoje(p1, p2, p3, p4, p5, p6) {
     this.p6 = p6;
     this.jornadaMinimaTotalSegundos = 31680;
     this.existePrevisao = false;
+    this.periodoTrabalhadoManha = "";
 
     this.timeNow = function() {
         return moment().format("HH:mm:ss");
@@ -67,14 +68,16 @@ function PontoHoje(p1, p2, p3, p4, p5, p6) {
             return calculaDiferenca(this.p2, this.p1) + calculaDiferenca(this.p4, this.p3) + calculaDiferenca(p6, p5);
         else if (this.isTerceiroPeriodo() && this.p6 == "") {
             this.existePrevisao = true;
-            return calculaDiferenca(this.p2, this.p1) + calculaDiferenca(this.p4, this.p3) + calculaDiferenca(this.timeNow(), this.p5);
+            this.periodoTrabalhadoManha = calculaDiferenca(this.p2, this.p1) + calculaDiferenca(this.p4, this.p3);
+            return this.periodoTrabalhadoManha + calculaDiferenca(this.timeNow(), this.p5);
         }
 
         if(this.isSegundoPeriodo() && this.p4 != "")
             return calculaDiferenca(this.p2, this.p1) + calculaDiferenca(this.p4, this.p3);
-        else if(this.isSegundoPeriodo() & this.p3 == "") {
+        else if(this.isSegundoPeriodo() & this.p4 == "") {
             this.existePrevisao = true;
-            return calculaDiferenca(this.p2, this.p1) + calculaDiferenca(this.timeNow(), this.p3);
+            this.periodoTrabalhadoManha = calculaDiferenca(this.p2, this.p1);
+            return this.periodoTrabalhadoManha + calculaDiferenca(this.timeNow(), this.p3);
         }
 
         if(this.p1 != "" && this.p2 != "")
@@ -107,7 +110,7 @@ function PontoHoje(p1, p2, p3, p4, p5, p6) {
     };
 
     this.horaSaida = function() {
-        return moment(this.diaBase).add(pontoHoje.jornadaMinimaTotalSegundos - pontoHoje.periodoTrabalhado(), "second");
+        return criaMoment(this.periodoTrabalhadoManha).add(pontoHoje.jornadaMinimaTotalSegundos - pontoHoje.periodoTrabalhado(), "second");
     };
 
 }

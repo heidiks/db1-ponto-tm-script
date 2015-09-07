@@ -110,7 +110,7 @@ function PontoHoje(p1, p2, p3, p4, p5, p6) {
     };
 
     this.horaSaida = function() {
-        return criaMoment(this.periodoTrabalhadoManha).add(pontoHoje.jornadaMinimaTotalSegundos - pontoHoje.periodoTrabalhado(), "second");
+        return criaMoment(this.ultimoPonto()).add(pontoHoje.jornadaMinimaTotalSegundos - pontoHoje.periodoTrabalhadoManha, "second");
     };
 
 }

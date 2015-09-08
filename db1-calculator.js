@@ -239,7 +239,7 @@ if($(".tabExterna").length) {
                         "<span class=\"label label-warning\" title=\"Tempo para começar a contabilizar hora extra, +8 horas e 58 minutos.\">Extra: " + pontoHoje.horaSaida().add(10, 'minutes').format("HH:mm") + "</span> </h4>\n";
                 } else {
                     return "<h4>Jornada:</h4>\n<h4>" +
-                        "<span style=\"font-size:35px\" class=\"label-inverse glyphicon glyphicon-exclamation-sign\" title=\"N&atilde;o existe previs&atilde;o para o estado atual.\"></span>" +
+                        "<span style=\"font-size:35px\" class=\"label-inverse glyphicon glyphicon-exclamation-sign\" title=\"Sem previs&atilde;o para o estado atual.\"></span>" +
                         "</h4>\n";
                 }
             };

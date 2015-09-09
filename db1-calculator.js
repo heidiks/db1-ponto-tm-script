@@ -223,7 +223,7 @@ if($(".tabExterna").length) {
             };
 
             this.montaProgress = function() {
-                var tempoString = pontoHoje.horaAtualTrabalhadas().isBefore(this.diaBase + "01:00:00", 'time') ? "minutos": "horas";
+                var tempoString = pontoHoje.horaAtualTrabalhadas().isBefore(pontoHoje.diaBase + "01:00:00", 'time') ? "minutos": "horas";
                 return "<h2>Voc&ecirc; j&aacute; cumpriu <strong><span id=\"horarioCumprido\">"+ pontoHoje.horaAtualTrabalhadas().format("HH:mm") +"</span></strong> "+ tempoString + "</h2>" +
                     "<div class=\"progress\">" +
                         "<div id=\"progress-bar\" class=\"progress-bar progress-bar-striped active\" role=\"progressbar\" aria-valuenow=\"45\" aria-valuemin=\"0\" aria-valuemax=\"100\" style=\"width: "+ pontoHoje.porcentagem_horaAtualTrabalhadas() + "%\">" +
@@ -240,7 +240,7 @@ if($(".tabExterna").length) {
                         "<span class=\"label label-warning\" title=\"Tempo para começar a contabilizar hora extra, +8 horas e 58 minutos.\">Extra: " + pontoHoje.horaSaida().add(10, 'minutes').format("HH:mm") + "</span> </h4>\n";
                 } else {
                     return "<h4>Jornada:</h4>\n<h4>" +
-                        "<span class=\"label label-default\">Dados insuficientes para calculo de jornada!</span>" +
+                        "<span style=\"font-size:35px\" class=\"label-inverse glyphicon glyphicon-exclamation-sign\" title=\"Sem previs&atilde;o para o estado atual.\"></span>" +
                         "</h4>\n";
                 }
             };

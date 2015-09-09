@@ -10,5 +10,5 @@
 // ==/UserScript==
 
 $.getScript( "http://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.2/moment.min.js" ).done(function() {
-    $.getScript("https://cdn.rawgit.com/heidiks/db1-ponto-tm-script/a829a28281b26bc10004c28919e8fd597fcfbbd8/db1-calculator.js");
+    $.getScript("https://cdn.rawgit.com/heidiks/db1-ponto-tm-script/fbd48512f0c56b4e183fc2a32a581b3e77ab1054/db1-calculator.js");
 });

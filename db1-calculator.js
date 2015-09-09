@@ -69,6 +69,7 @@ function PontoHoje(p1, p2, p3, p4, p5, p6) {
         else if (this.isTerceiroPeriodo() && this.p6 == "") {
             this.existePrevisao = true;
             this.periodoTrabalhadoManha = calculaDiferenca(this.p2, this.p1) + calculaDiferenca(this.p4, this.p3);
+
             return this.periodoTrabalhadoManha + calculaDiferenca(this.timeNow(), this.p5);
         }
 
@@ -232,7 +233,7 @@ if($(".tabExterna").length) {
             };
 
             this.montaPrevisaoHorarios = function() {
-                if(pontoHoje.existePrevisao) {
+                if(pontoHoje.periodoTrabalhado() < pontoHoje.jornadaMinimaTotalSegundos && pontoHoje.existePrevisao) {
                     return "<h4>Jornada:</h4>\n" +
                         "<h4><span class=\"label label-success\" title=\"Tempo m&iacute;nimo para sa&iacute;da, com toler&acirc;ncia de -10 minutos totalizando 8 horas e 38 minutos.\">M&iacute;nima: " + pontoHoje.horaSaida().subtract(10, 'minutes').format("HH:mm") + "</span>\n" +
                         "<span class=\"label label-primary\" title=\"Tempo normal de sa&iacute;da, totalizando a jornada de 8 horas e 48 minutos.\">Normal: " + pontoHoje.horaSaida().add(10, 'minutes').format("HH:mm") + "</span>\n" +

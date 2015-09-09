@@ -48,27 +48,70 @@ function PontoSaldo() {
 
 PontoSaldo.prototype = new PontoBase();
 
-function PontoHoje(manhaInicio, manhaFim, tardeInicio, tardeFim) {
-    this.manhaInicio = manhaInicio;
-    this.manhaFim = manhaFim;
-    this.tardeInicio = tardeInicio;
-    this.tardeFim = tardeFim;
+function PontoHoje(p1, p2, p3, p4, p5, p6) {
+    this.p1 = p1;
+    this.p2 = p2;
+    this.p3 = p3;
+    this.p4 = p4;
+    this.p5 = p5;
+    this.p6 = p6;
     this.jornadaMinimaTotalSegundos = 31680;
+    this.existePrevisao = false;
+    this.periodoTrabalhadoManha = "";
 
     this.timeNow = function() {
         return moment().format("HH:mm:ss");
     };
 
-    this.periodoTrabalhadoManha = function() {
-        return calculaDiferenca(this.manhaFim, this.manhaInicio);
+    this.periodoTrabalhado = function() {
+        if(this.isTerceiroPeriodo() && this.p6 != "")
+            return calculaDiferenca(this.p2, this.p1) + calculaDiferenca(this.p4, this.p3) + calculaDiferenca(p6, p5);
+        else if (this.isTerceiroPeriodo() && this.p6 == "") {
+            this.existePrevisao = true;
+            this.periodoTrabalhadoManha = calculaDiferenca(this.p2, this.p1) + calculaDiferenca(this.p4, this.p3);
+
+            return this.periodoTrabalhadoManha + calculaDiferenca(this.timeNow(), this.p5);
+        }
+
+        if(this.isSegundoPeriodo() && this.p4 != "")
+            return calculaDiferenca(this.p2, this.p1) + calculaDiferenca(this.p4, this.p3);
+        else if(this.isSegundoPeriodo() & this.p4 == "") {
+            this.existePrevisao = true;
+            this.periodoTrabalhadoManha = calculaDiferenca(this.p2, this.p1);
+            return this.periodoTrabalhadoManha + calculaDiferenca(this.timeNow(), this.p3);
+        }
+
+        if(this.p1 != "" && this.p2 != "")
+            return calculaDiferenca(this.p2, this.p1);
+        else 
+            return calculaDiferenca(this.timeNow(), this.p1);
     };
 
     this.horaAtualTrabalhadas = function() {
-        return moment(this.diaBase).add(this.periodoTrabalhadoManha() + calculaDiferenca(this.timeNow(), this.tardeInicio), "second");
+        return moment(this.diaBase).add(this.periodoTrabalhado(), "second");
     };
 
     this.porcentagem_horaAtualTrabalhadas = function() {
-        return (this.periodoTrabalhadoManha() + calculaDiferenca(this.timeNow(), this.tardeInicio)) * 100 / this.jornadaMinimaTotalSegundos;
+        return this.periodoTrabalhado() * 100 / this.jornadaMinimaTotalSegundos;
+    };
+
+    this.isTerceiroPeriodo = function() {
+        return this.p5 != "" && this.p4 != "" && this.p3 != "";
+    };
+
+    this.isSegundoPeriodo = function() {
+        return this.p1 != "" && this.p2 != "" && this.p3 != "" && this.p5 == "" && this.p6 == "";
+    };
+
+    this.ultimoPonto = function() {
+        if(this.isTerceiroPeriodo())
+            return this.p5;
+
+        return this.p3;
+    };
+
+    this.horaSaida = function() {
+        return criaMoment(this.ultimoPonto()).add(pontoHoje.jornadaMinimaTotalSegundos - pontoHoje.periodoTrabalhadoManha, "second");
     };
 
 }
@@ -100,21 +143,6 @@ if($(".tabExterna").length) {
 
     criaMoment = function(hora) {
         return moment('2011-01-01 ' + hora);
-    };
-
-    enviarDadosBanco = function save(tempo, dataBanco) {
-        var myAPIKey = "mcuYk7MMzXmVENumYTvTSeHXRm5GNQT3";
-
-        var dataAdicao = new Date();
-        var url = "https://api.mongolab.com/api/1/databases/db1_banco_horas/collections/banco?apiKey="+myAPIKey;
-        var data = JSON.stringify({"dataAdicao": dataAdicao, "tempo" : tempo,  "dataBanco": dataBanco,});
-
-        $.ajax(
-            { url: url,
-                data: data,
-                type: "POST",
-                contentType: "application/json"
-            });
     };
 
     // gambeta para carregar css
@@ -176,40 +204,74 @@ if($(".tabExterna").length) {
         }
     });
 
-    var manhaInicio = $('.tabExterna tr').last().children().eq(1).html();
-    var manhaFim = $('.tabExterna tr').last().children().eq(2).html();
-    var tardeInicio = $('.tabExterna tr').last().children().eq(3).html();
-    var tardeFim = $('.tabExterna tr').last().children().eq(4).html();
+    var p1 = $('.tabExterna tr').last().children().eq(1).html();
+    var p2 = $('.tabExterna tr').last().children().eq(2).html();
+    var p3 = $('.tabExterna tr').last().children().eq(3).html();
+    var p4 = $('.tabExterna tr').last().children().eq(4).html();
+    var p5 = $('.tabExterna tr').last().children().eq(5).html();
+    var p6 = $('.tabExterna tr').last().children().eq(6).html();
 
-    if(manhaInicio != "" && manhaFim != "" && tardeInicio != "" && tardeFim == "") {
-        pontoHoje = new PontoHoje(manhaInicio, manhaFim, tardeInicio, tardeFim);
+    pontoHoje = new PontoHoje(p1, p2, p3, p4, p5, p6);
+
+    if(pontoHoje.p1 != "") {
+
+        function PontoBoxBuilder(pontoHoje) {
+            this.box = "";
+
+            this.getBox = function() {
+                return this.box;
+            };
+
+            this.montaProgress = function() {
+                var tempoString = pontoHoje.horaAtualTrabalhadas().isBefore(pontoHoje.diaBase + "01:00:00", 'time') ? "minutos": "horas";
+                return "<h2>Voc&ecirc; j&aacute; cumpriu <strong><span id=\"horarioCumprido\">"+ pontoHoje.horaAtualTrabalhadas().format("HH:mm") +"</span></strong> "+ tempoString + "</h2>" +
+                    "<div class=\"progress\">" +
+                        "<div id=\"progress-bar\" class=\"progress-bar progress-bar-striped active\" role=\"progressbar\" aria-valuenow=\"45\" aria-valuemin=\"0\" aria-valuemax=\"100\" style=\"width: "+ pontoHoje.porcentagem_horaAtualTrabalhadas() + "%\">" +
+                        parseInt(pontoHoje.porcentagem_horaAtualTrabalhadas()) +"%" +
+                        "</div>" +
+                    "</div>";
+            };
+
+            this.montaPrevisaoHorarios = function() {
+                if(pontoHoje.periodoTrabalhado() < pontoHoje.jornadaMinimaTotalSegundos && pontoHoje.existePrevisao) {
+                    return "<h4>Jornada:</h4>\n" +
+                        "<h4><span class=\"label label-success\" title=\"Tempo m&iacute;nimo para sa&iacute;da, com toler&acirc;ncia de -10 minutos totalizando 8 horas e 38 minutos.\">M&iacute;nima: " + pontoHoje.horaSaida().subtract(10, 'minutes').format("HH:mm") + "</span>\n" +
+                        "<span class=\"label label-primary\" title=\"Tempo normal de sa&iacute;da, totalizando a jornada de 8 horas e 48 minutos.\">Normal: " + pontoHoje.horaSaida().add(10, 'minutes').format("HH:mm") + "</span>\n" +
+                        "<span class=\"label label-warning\" title=\"Tempo para começar a contabilizar hora extra, +8 horas e 58 minutos.\">Extra: " + pontoHoje.horaSaida().add(10, 'minutes').format("HH:mm") + "</span> </h4>\n";
+                } else {
+                    return "<h4>Jornada:</h4>\n<h4>" +
+                        "<span style=\"font-size:35px\" class=\"label-inverse glyphicon glyphicon-exclamation-sign\" title=\"Sem previs&atilde;o para o estado atual.\"></span>" +
+                        "</h4>\n";
+                }
+            };
+
+            this.build = function() {
+                this.box =
+                    "<div align=\"center\">" +
+                        "<button class=\"btn btn-default pull-right glyphicon glyphicon-refresh\" onClick=\"refresh()\"></button>" +
+                        "<div class=\"well well-lg\">" +
+                            this.montaProgress() +
+                            "\n" +
+                            this.montaPrevisaoHorarios() +
+                        "</div>" +
+                    "</div>";
+
+                return this;
+            };
+        }
+
+        pontoBox = new PontoBoxBuilder(pontoHoje).build();
 
         refresh = function() {
             $("#horarioCumprido").text(pontoHoje.horaAtualTrabalhadas().format("HH:mm"));
 
-            var porcentagem = parseInt(pontoHoje.porcentagem_horaAtualTrabalhadas());
+            var porcentagem = pontoHoje.porcentagem_horaAtualTrabalhadas();
             $("#progress-bar").css("width", porcentagem + "%").text(parseInt(porcentagem) +"%");
         };
 
-        var horaSaida = criaMoment(pontoHoje.tardeInicio).add(pontoHoje.jornadaMinimaTotalSegundos - pontoHoje.periodoTrabalhadoManha(), "second");
-
-        if (typeof pontoHoje.manhaInicio != 'undefined' && typeof pontoHoje.manhaFim != 'undefined' && typeof pontoHoje.tardeInicio != 'undefined' && horaSaida.isValid()) {
+        if (pontoHoje.horaSaida().isValid()) {
             $(".tabExterna").parent().prepend(
-                "<div align=\"center\">" +
-                "<button class=\"btn btn-default pull-right glyphicon glyphicon-refresh\" onClick=\"refresh()\"></button>" +
-                "<div class=\"well well-lg\">" +
-                "<h2>Voc&ecirc; j&aacute; cumpriu <strong><span id=\"horarioCumprido\">"+ pontoHoje.horaAtualTrabalhadas().format("HH:mm") +"</span></strong> horas</h2>" +
-                "<div class=\"progress\">" +
-                "<div id=\"progress-bar\" class=\"progress-bar progress-bar-striped active\" role=\"progressbar\" aria-valuenow=\"45\" aria-valuemin=\"0\" aria-valuemax=\"100\" style=\"width: "+ pontoHoje.porcentagem_horaAtualTrabalhadas() + "%\">" +
-                parseInt(pontoHoje.porcentagem_horaAtualTrabalhadas()) +"%" +
-                "</div>" +
-                "</div>" +
-                "<h4>Jornada:</h4>\n" +
-                "<h4><span class=\"label label-success\">M&iacute;nima: " + horaSaida.subtract(10, 'minutes').format("HH:mm") + "</span>\n" +
-                "<span class=\"label label-primary\">Normal: " + horaSaida.add(10, 'minutes').format("HH:mm") + "</span>\n" +
-                "<span class=\"label label-warning\">Extra: " + horaSaida.add(10, 'minutes').format("HH:mm") + "</span> </h4>\n" +
-                "</div>\n" +
-                "</div>"
+                pontoBox.getBox()
             );
         }
     }

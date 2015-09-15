@@ -233,7 +233,7 @@ if($(".tabExterna").length) {
             };
 
             this.montaPrevisaoHorarios = function() {
-                if(pontoHoje.periodoTrabalhado() < pontoHoje.jornadaMinimaTotalSegundos && pontoHoje.existePrevisao) {
+                if(pontoHoje.existePrevisao) {
                     return "<h4>Jornada:</h4>\n" +
                         "<h4><span class=\"label label-success\" title=\"Hor&aacute;rio m&iacute;nimo para sa&iacute;da, com toler&acirc;ncia de -10 minutos totalizando 8 horas e 38 minutos.\">M&iacute;nima: " + pontoHoje.horaSaida().subtract(10, 'minutes').format("HH:mm") + "</span>\n" +
                         "<span class=\"label label-primary\" title=\"Hor&aacute;rio normal de sa&iacute;da, totalizando a jornada de 8 horas e 48 minutos.\">Normal: " + pontoHoje.horaSaida().format("HH:mm") + "</span>\n" +

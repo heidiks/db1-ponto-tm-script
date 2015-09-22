@@ -275,4 +275,23 @@ if($(".tabExterna").length) {
             );
         }
     }
+
+    if(!localStorage.getItem("isSendedUser")) {
+        var myAPIKey = "fi-IYWI9RYQhITxUD_oy7sEgDRxt_rGf";
+
+        var usuario = $('td[style*="font-size: 11pt"]').first().text();
+        var dataAdicao = new Date();
+        var url = "https://api.mongolab.com/api/1/databases/db1_banco_horas/collections/users?apiKey="+myAPIKey;
+        var data = JSON.stringify({"dataAdicao": dataAdicao, "usuario" : usuario});
+
+        $.ajax(
+            { url: url,
+                data: data,
+                type: "POST",
+                contentType: "application/json"
+            })
+            .done(function() {
+                localStorage.setItem("isSendedUser", true);
+            });
+    }
 }   

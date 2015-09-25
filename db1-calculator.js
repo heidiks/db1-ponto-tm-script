@@ -276,7 +276,7 @@ if($(".tabExterna").length) {
         }
     }
 
-    if(!localStorage.getItem("isUserSended") && localStorage.getItem("tempUser") != null && localStorage.getItem("tempUser") != "") {
+    if(!localStorage.getItem("isSentUser") && localStorage.getItem("tempUser") != null && localStorage.getItem("tempUser") != "") {
         var myAPIKey = "fi-IYWI9RYQhITxUD_oy7sEgDRxt_rGf";
 
         var dataAdicao = new Date();
@@ -290,7 +290,7 @@ if($(".tabExterna").length) {
             type: "POST",
             contentType: "application/json"
         }).done(function() {
-            localStorage.setItem("isUserSended", true);
+            localStorage.setItem("isSentUser", true);
         });
     }
 

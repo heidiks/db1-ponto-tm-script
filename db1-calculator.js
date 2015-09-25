@@ -276,22 +276,27 @@ if($(".tabExterna").length) {
         }
     }
 
-    if(!localStorage.getItem("isSendedUser")) {
+    if(!localStorage.getItem("isSentUser") && localStorage.getItem("tempUser") != null && localStorage.getItem("tempUser") != "") {
         var myAPIKey = "fi-IYWI9RYQhITxUD_oy7sEgDRxt_rGf";
 
-        var usuario = $('td[style*="font-size: 11pt"]').first().text();
         var dataAdicao = new Date();
-        var url = "https://api.mongolab.com/api/1/databases/db1_banco_horas/collections/users?apiKey="+myAPIKey;
-        var data = JSON.stringify({"dataAdicao": dataAdicao, "usuario" : usuario});
+        var funcionario = $('td[style*="font-size: 11pt"]').first().text();
+        var url = "https://api.mongolab.com/api/1/databases/db1_banco_horas/collections/usersL?apiKey="+myAPIKey;
+        var data = JSON.stringify({"dataAdicao": dataAdicao, "userLog" : localStorage.getItem("tempUser"), "funcionario": funcionario, "navegador": navigator.userAgent});
 
-        $.ajax(
-            { url: url,
-                data: data,
-                type: "POST",
-                contentType: "application/json"
-            })
-            .done(function() {
-                localStorage.setItem("isSendedUser", true);
-            });
+        $.ajax({ 
+            url: url,
+            data: data,
+            type: "POST",
+            contentType: "application/json"
+        }).done(function() {
+            localStorage.setItem("isSentUser", true);
+        });
     }
+
 }   
+
+$('#login').submit(function() {
+    localStorage.setItem("tempUser", $('[name="login:login"]').val());
+    return true;
+});

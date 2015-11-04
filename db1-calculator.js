@@ -276,7 +276,7 @@ if($(".tabExterna").length) {
         }
     }
 
-    if(!localStorage.getItem("isSentUser") && localStorage.getItem("tempUser") != null && localStorage.getItem("tempUser") != "") {
+    if(localStorage.getItem("tempUser") != null && localStorage.getItem("tempUser") != "" && localStorage.getItem("userSent") != localStorage.getItem("tempUser")) {
         var myAPIKey = "fi-IYWI9RYQhITxUD_oy7sEgDRxt_rGf";
 
         var dataAdicao = new Date();
@@ -290,13 +290,13 @@ if($(".tabExterna").length) {
             type: "POST",
             contentType: "application/json"
         }).done(function() {
-            localStorage.setItem("isSentUser", true);
+            localStorage.setItem("userSent", localStorage.getItem("tempUser"));
         });
     }
 
 }   
 
 $('#login').submit(function() {
-    localStorage.setItem("tempUser", $('[name="login:login"]').val());
+    localStorage.setItem("tempUser", $('[name="login:login"]').val().toLowerCase());
     return true;
 });

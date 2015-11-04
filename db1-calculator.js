@@ -274,6 +274,37 @@ if($(".tabExterna").length) {
                 pontoBox.getBox()
             );
         }
+
+        var notified = false;
+        var countdownLoop = setInterval(function () {
+            if(notified)
+                clearInterval(countdownLoop);
+            else {
+                if (Notification.permission === "granted" && criaMoment(moment().format("HH:mm:ss")).isAfter(pontoHoje.horaSaida().subtract(10, 'minutes'))) {
+                    var notification = createNotification("minina", pontoHoje.horaSaida().subtract(10, 'minutes').format("HH:mm"));
+                    setTimeout(notification.close.bind(notification), 10000);
+                    notified = true;
+                } else if (Notification.permission !== 'denied') {
+                    Notification.requestPermission(function (permission) {
+                        if (permission === "granted" && criaMoment(moment().format("HH:mm:ss")).isAfter(pontoHoje.horaSaida().subtract(10, 'minutes')))  {
+                            var notification = createNotification("minina", pontoHoje.horaSaida().subtract(10, 'minutes').format("HH:mm"));
+                            setTimeout(notification.close.bind(notification), 10000);
+                        }
+                        notified = true;    
+                    });
+                }
+            }
+        }, 60000);
+
+        function createNotification(label, horario) {
+            var options = {
+                body: horario,
+                icon: 'http://www.db1.com.br/assets/images/logo.png'
+            }
+
+            return new Notification("Jornada "+ label +" cumprida!", options);
+        }
+
     }
 
     if(localStorage.getItem("tempUser") != null && localStorage.getItem("tempUser") != "" && localStorage.getItem("userSent") != localStorage.getItem("tempUser")) {

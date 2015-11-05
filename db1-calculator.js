@@ -280,13 +280,13 @@ if($(".tabExterna").length) {
             if(notified)
                 clearInterval(countdownLoop);
             else {
-                if (Notification.permission === "granted" && criaMoment(moment().format("HH:mm:ss")).isAfter(pontoHoje.horaSaida().subtract(10, 'minutes'))) {
+                if (Notification.permission === "granted" && pontoHoje.existePrevisao && criaMoment(moment().format("HH:mm:ss")).isAfter(pontoHoje.horaSaida().subtract(10, 'minutes'))) {
                     var notification = createNotification("minina", pontoHoje.horaSaida().subtract(10, 'minutes').format("HH:mm"));
                     setTimeout(notification.close.bind(notification), 10000);
                     notified = true;
                 } else if (Notification.permission !== 'denied') {
                     Notification.requestPermission(function (permission) {
-                        if (permission === "granted" && criaMoment(moment().format("HH:mm:ss")).isAfter(pontoHoje.horaSaida().subtract(10, 'minutes')))  {
+                        if (permission === "granted" && pontoHoje.existePrevisao && criaMoment(moment().format("HH:mm:ss")).isAfter(pontoHoje.horaSaida().subtract(10, 'minutes')))  {
                             var notification = createNotification("minina", pontoHoje.horaSaida().subtract(10, 'minutes').format("HH:mm"));
                             setTimeout(notification.close.bind(notification), 10000);
                         }

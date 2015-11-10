@@ -294,7 +294,7 @@ if($(".tabExterna").length) {
                     });
                 }
             }
-        }, 60000);
+        }, 30000);
 
         function createNotification(label, horario) {
             var options = {

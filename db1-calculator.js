@@ -277,6 +277,7 @@ if($(".tabExterna").length) {
 
         var notified = false;
         var countdownLoop = setInterval(function () {
+        console.log('init');
             if(notified)
                 clearInterval(countdownLoop);
             else {
@@ -284,17 +285,19 @@ if($(".tabExterna").length) {
                     var notification = createNotification("minina", pontoHoje.horaSaida().subtract(10, 'minutes').format("HH:mm"));
                     setTimeout(notification.close.bind(notification), 10000);
                     notified = true;
+                    console.log('a');
                 } else if (Notification.permission !== 'denied') {
                     Notification.requestPermission(function (permission) {
                         if (permission === "granted" && pontoHoje.existePrevisao && criaMoment(moment().format("HH:mm:ss")).isAfter(pontoHoje.horaSaida().subtract(10, 'minutes')))  {
                             var notification = createNotification("minina", pontoHoje.horaSaida().subtract(10, 'minutes').format("HH:mm"));
                             setTimeout(notification.close.bind(notification), 10000);
+                            notified = true;    
+                            console.log('b');
                         }
-                        notified = true;    
                     });
                 }
             }
-        }, 30000);
+        }, 10000);
 
         function createNotification(label, horario) {
             var options = {

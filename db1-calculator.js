@@ -224,7 +224,7 @@ if($(".tabExterna").length) {
 
             this.montaProgress = function() {
                 var tempoString = pontoHoje.horaAtualTrabalhadas().isBefore(pontoHoje.diaBase + "01:00:00", 'time') ? "minutos": "horas";
-                return "<h2>Voc&ecirc; j&aacute; cumpriu <strong><span id=\"horarioCumprido\">"+ pontoHoje.horaAtualTrabalhadas().format("HH:mm") +"</span></strong> "+ tempoString + "</h2>" +
+                return "<h2>Voc&ecirc; j&aacute; cumpriu <strong><span id=\"horarioCumprido\">"+ pontoHoje.horaAtualTrabalhadas().format("HH:mm:ss") +"</span></strong> "+ tempoString + "</h2>" +
                     "<div class=\"progress\">" +
                         "<div id=\"progress-bar\" class=\"progress-bar progress-bar-striped active\" role=\"progressbar\" aria-valuenow=\"45\" aria-valuemin=\"0\" aria-valuemax=\"100\" style=\"width: "+ pontoHoje.porcentagem_horaAtualTrabalhadas() + "%\">" +
                         parseInt(pontoHoje.porcentagem_horaAtualTrabalhadas()) +"%" +
@@ -235,9 +235,9 @@ if($(".tabExterna").length) {
             this.montaPrevisaoHorarios = function() {
                 if(pontoHoje.existePrevisao) {
                     return "<h4>Jornada:</h4>\n" +
-                        "<h4><span class=\"label label-success\" title=\"Hor&aacute;rio m&iacute;nimo para sa&iacute;da, com toler&acirc;ncia de -10 minutos totalizando 8 horas e 38 minutos.\">M&iacute;nima: " + pontoHoje.horaSaida().subtract(10, 'minutes').format("HH:mm") + "</span>\n" +
-                        "<span class=\"label label-primary\" title=\"Hor&aacute;rio normal de sa&iacute;da, totalizando a jornada de 8 horas e 48 minutos.\">Normal: " + pontoHoje.horaSaida().format("HH:mm") + "</span>\n" +
-                        "<span class=\"label label-warning\" title=\"Hor&aacute;rio para começar a contabilizar hora extra, +8 horas e 58 minutos.\">Extra: " + pontoHoje.horaSaida().add(10, 'minutes').format("HH:mm") + "</span> </h4>\n";
+                        "<h4><span class=\"label label-success\" title=\"Hor&aacute;rio m&iacute;nimo para sa&iacute;da, com toler&acirc;ncia de -10 minutos totalizando 8 horas e 38 minutos.\">M&iacute;nima: " + pontoHoje.horaSaida().subtract(10, 'minutes').format("HH:mm:ss") + "</span>\n" +
+                        "<span class=\"label label-primary\" title=\"Hor&aacute;rio normal de sa&iacute;da, totalizando a jornada de 8 horas e 48 minutos.\">Normal: " + pontoHoje.horaSaida().format("HH:mm:ss") + "</span>\n" +
+                        "<span class=\"label label-warning\" title=\"Hor&aacute;rio para começar a contabilizar hora extra, +8 horas e 58 minutos.\">Extra: " + pontoHoje.horaSaida().add(10, 'minutes').format("HH:mm:ss") + "</span> </h4>\n";
                 } else {
                     return "<h4>Jornada:</h4>\n<h4>" +
                         "<span style=\"font-size:35px\" class=\"label-inverse glyphicon glyphicon-exclamation-sign\" title=\"Sem previs&atilde;o para o estado atual.\"></span>" +
@@ -263,7 +263,7 @@ if($(".tabExterna").length) {
         pontoBox = new PontoBoxBuilder(pontoHoje).build();
 
         refresh = function() {
-            $("#horarioCumprido").text(pontoHoje.horaAtualTrabalhadas().format("HH:mm"));
+            $("#horarioCumprido").text(pontoHoje.horaAtualTrabalhadas().format("HH:mm:ss"));
 
             var porcentagem = pontoHoje.porcentagem_horaAtualTrabalhadas();
             $("#progress-bar").css("width", porcentagem + "%").text(parseInt(porcentagem) +"%");
@@ -285,13 +285,13 @@ if($(".tabExterna").length) {
                     clearInterval(countdownLoop);
                 else {
                     if (Notification.permission === "granted" && pontoHoje.existePrevisao && criaMoment(moment().format("HH:mm:ss")).isAfter(pontoHoje.horaSaida().subtract(10, 'minutes'))) {
-                        var notification = createNotification("mínina", pontoHoje.horaSaida().subtract(10, 'minutes').format("HH:mm"));
+                        var notification = createNotification("mínina", pontoHoje.horaSaida().subtract(10, 'minutes').format("HH:mm:ss"));
                         notified = true;
                         console.log('a');
                     } else if (Notification.permission !== 'denied') {
                         Notification.requestPermission(function (permission) {
                             if (permission === "granted" && pontoHoje.existePrevisao && criaMoment(moment().format("HH:mm:ss")).isAfter(pontoHoje.horaSaida().subtract(10, 'minutes')))  {
-                                var notification = createNotification("mínina", pontoHoje.horaSaida().subtract(10, 'minutes').format("HH:mm"));
+                                var notification = createNotification("mínina", pontoHoje.horaSaida().subtract(10, 'minutes').format("HH:mm:ss"));
                                 notified = true;    
                                 console.log('b');
                             }

@@ -285,15 +285,15 @@ if($(".tabExterna").length) {
                     clearInterval(countdownLoop);
                 else {
                     if (Notification.permission === "granted" && pontoHoje.existePrevisao && criaMoment(moment().format("HH:mm:ss")).isAfter(pontoHoje.horaSaida().subtract(10, 'minutes'))) {
-                        var notification = createNotification("mínina", pontoHoje.horaSaida().subtract(10, 'minutes').format("HH:mm:ss"));
+                        createNotification("mínima", pontoHoje.horaSaida().subtract(10, 'minutes').format("HH:mm:ss"));
                         notified = true;
                         console.log('a');
                     } else if (Notification.permission !== 'denied') {
                         Notification.requestPermission(function (permission) {
                             if (permission === "granted" && pontoHoje.existePrevisao && criaMoment(moment().format("HH:mm:ss")).isAfter(pontoHoje.horaSaida().subtract(10, 'minutes')))  {
-                                var notification = createNotification("mínina", pontoHoje.horaSaida().subtract(10, 'minutes').format("HH:mm:ss"));
+                                createNotification("mínima", pontoHoje.horaSaida().subtract(10, 'minutes').format("HH:mm:ss"));
                                 notified = true;    
-                                console.log('b');
+                                console.log('b');m
                             }
                         });
                     }

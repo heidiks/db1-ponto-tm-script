@@ -293,7 +293,7 @@ if($(".tabExterna").length) {
                             if (permission === "granted" && pontoHoje.existePrevisao && criaMoment(moment().format("HH:mm:ss")).isAfter(pontoHoje.horaSaida().subtract(10, 'minutes')))  {
                                 createNotification("mínima", pontoHoje.horaSaida().subtract(10, 'minutes').format("HH:mm:ss"));
                                 notified = true;    
-                                console.log('b');m
+                                console.log('b');
                             }
                         });
                     }

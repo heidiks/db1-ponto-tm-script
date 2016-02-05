@@ -224,7 +224,7 @@ if($(".tabExterna").length) {
 
             this.montaProgress = function() {
                 var tempoString = pontoHoje.horaAtualTrabalhadas().isBefore(pontoHoje.diaBase + "01:00:00", 'time') ? "minutos": "horas";
-                return "<h2>Voc&ecirc; j&aacute; cumpriu <strong><span id=\"horarioCumprido\">"+ pontoHoje.horaAtualTrabalhadas().format("HH:mm:ss") +"</span></strong> "+ tempoString + "</h2>" +
+                return "<h2>Voc&ecirc; j&aacute; cumpriu <strong><span id=\"horarioCumprido\">"+ pontoHoje.horaAtualTrabalhadas().format("HH:mm") +"</span></strong> "+ tempoString + "</h2>" +
                     "<div class=\"progress\">" +
                         "<div id=\"progress-bar\" class=\"progress-bar progress-bar-striped active\" role=\"progressbar\" aria-valuenow=\"45\" aria-valuemin=\"0\" aria-valuemax=\"100\" style=\"width: "+ pontoHoje.porcentagem_horaAtualTrabalhadas() + "%\">" +
                         parseInt(pontoHoje.porcentagem_horaAtualTrabalhadas()) +"%" +
@@ -263,7 +263,7 @@ if($(".tabExterna").length) {
         pontoBox = new PontoBoxBuilder(pontoHoje).build();
 
         refresh = function() {
-            $("#horarioCumprido").text(pontoHoje.horaAtualTrabalhadas().format("HH:mm:ss"));
+            $("#horarioCumprido").text(pontoHoje.horaAtualTrabalhadas().format("HH:mm"));
 
             var porcentagem = pontoHoje.porcentagem_horaAtualTrabalhadas();
             $("#progress-bar").css("width", porcentagem + "%").text(parseInt(porcentagem) +"%");

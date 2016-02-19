@@ -19,3 +19,7 @@
 | ![alt tag](https://img.shields.io/badge/Jornada-Extra-yellow.svg)  | Horário para começar a contabilizar hora extra, +8 horas e 58 minutos. |
 | ![alt tag](https://img.shields.io/badge/Tag-%2B-yellow.svg)  | Badge cálculo do tempo de hora extra trabalhado. |
 | ![alt tag](https://img.shields.io/badge/Tag----red.svg)   | Bagde cálculo do tempo que faltou para concluir a jornada normal diária. |
+
+## Notificações 
+ - A partir da versão 0.3.1 já consta notification de horário mínimo
+    - Permitir acesso quando solicitado

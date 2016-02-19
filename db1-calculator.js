@@ -280,20 +280,17 @@ if($(".tabExterna").length) {
         var notified = false;
         if(localStorage.getItem("minimumNotification") != null && localStorage.getItem("minimumNotification") != "" && localStorage.getItem("minimumNotification") == "S") {
             var countdownLoop = setInterval(function () {
-                console.log('init');
                 if(notified)
                     clearInterval(countdownLoop);
                 else {
                     if (Notification.permission === "granted" && pontoHoje.existePrevisao && criaMoment(moment().format("HH:mm:ss")).isAfter(pontoHoje.horaSaida().subtract(10, 'minutes'))) {
                         createNotification("mínima", pontoHoje.horaSaida().subtract(10, 'minutes').format("HH:mm:ss"));
                         notified = true;
-                        console.log('a');
                     } else if (Notification.permission !== 'denied') {
                         Notification.requestPermission(function (permission) {
                             if (permission === "granted" && pontoHoje.existePrevisao && criaMoment(moment().format("HH:mm:ss")).isAfter(pontoHoje.horaSaida().subtract(10, 'minutes')))  {
                                 createNotification("mínima", pontoHoje.horaSaida().subtract(10, 'minutes').format("HH:mm:ss"));
                                 notified = true;    
-                                console.log('b');
                             }
                         });
                     }

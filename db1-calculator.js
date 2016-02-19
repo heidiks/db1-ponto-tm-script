@@ -235,9 +235,9 @@ if($(".tabExterna").length) {
             this.montaPrevisaoHorarios = function() {
                 if(pontoHoje.existePrevisao) {
                     return "<h4>Jornada:</h4>\n" +
-                        "<h4><span class=\"label label-success\" title=\"Hor&aacute;rio m&iacute;nimo para sa&iacute;da, com toler&acirc;ncia de -10 minutos totalizando 8 horas e 38 minutos.\">M&iacute;nima: " + pontoHoje.horaSaida().subtract(10, 'minutes').format("HH:mm") + "</span>\n" +
-                        "<span class=\"label label-primary\" title=\"Hor&aacute;rio normal de sa&iacute;da, totalizando a jornada de 8 horas e 48 minutos.\">Normal: " + pontoHoje.horaSaida().format("HH:mm") + "</span>\n" +
-                        "<span class=\"label label-warning\" title=\"Hor&aacute;rio para começar a contabilizar hora extra, +8 horas e 58 minutos.\">Extra: " + pontoHoje.horaSaida().add(10, 'minutes').format("HH:mm") + "</span> </h4>\n";
+                        "<h4><span class=\"label label-success\" title=\"Hor&aacute;rio m&iacute;nimo para sa&iacute;da, com toler&acirc;ncia de -10 minutos totalizando 8 horas e 38 minutos.\">M&iacute;nima: " + pontoHoje.horaSaida().subtract(10, 'minutes').format("HH:mm:ss") + "</span>\n" +
+                        "<span class=\"label label-primary\" title=\"Hor&aacute;rio normal de sa&iacute;da, totalizando a jornada de 8 horas e 48 minutos.\">Normal: " + pontoHoje.horaSaida().format("HH:mm:ss") + "</span>\n" +
+                        "<span class=\"label label-warning\" title=\"Hor&aacute;rio para começar a contabilizar hora extra, +8 horas e 58 minutos.\">Extra: " + pontoHoje.horaSaida().add(10, 'minutes').format("HH:mm:ss") + "</span> </h4>\n";
                 } else {
                     return "<h4>Jornada:</h4>\n<h4>" +
                         "<span style=\"font-size:35px\" class=\"label-inverse glyphicon glyphicon-exclamation-sign\" title=\"Sem previs&atilde;o para o estado atual.\"></span>" +
@@ -274,6 +274,39 @@ if($(".tabExterna").length) {
                 pontoBox.getBox()
             );
         }
+
+        //TODO fazer um método/modal 
+        localStorage.setItem("minimumNotification", "S");
+        var notified = false;
+        if(localStorage.getItem("minimumNotification") != null && localStorage.getItem("minimumNotification") != "" && localStorage.getItem("minimumNotification") == "S") {
+            var countdownLoop = setInterval(function () {
+                if(notified)
+                    clearInterval(countdownLoop);
+                else {
+                    if (Notification.permission === "granted" && pontoHoje.existePrevisao && criaMoment(moment().format("HH:mm:ss")).isAfter(pontoHoje.horaSaida().subtract(10, 'minutes'))) {
+                        createNotification("mínima", pontoHoje.horaSaida().subtract(10, 'minutes').format("HH:mm:ss"));
+                        notified = true;
+                    } else if (Notification.permission !== 'denied') {
+                        Notification.requestPermission(function (permission) {
+                            if (permission === "granted" && pontoHoje.existePrevisao && criaMoment(moment().format("HH:mm:ss")).isAfter(pontoHoje.horaSaida().subtract(10, 'minutes')))  {
+                                createNotification("mínima", pontoHoje.horaSaida().subtract(10, 'minutes').format("HH:mm:ss"));
+                                notified = true;    
+                            }
+                        });
+                    }
+                }
+            }, 10000);
+        }
+
+        function createNotification(label, horario) {
+            var options = {
+                body:  moment().format("DD/MM/YYYY") + " - " + horario,
+                icon: 'http://www.db1.com.br/assets/images/logo.png'
+            }
+
+            return new Notification("Jornada "+ label +" cumprida!", options);
+        }
+
     }
 
     if(localStorage.getItem("tempUser") != null && localStorage.getItem("tempUser") != "" && localStorage.getItem("userSent") != localStorage.getItem("tempUser")) {

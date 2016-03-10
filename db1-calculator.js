@@ -314,7 +314,7 @@ if($(".tabExterna").length) {
 
         var dataAdicao = new Date();
         var funcionario = $('td[style*="font-size: 11pt"]').first().text();
-        var url = "https://api.mongolab.com/api/1/databases/db1_banco_horas/collections/usersL?apiKey="+myAPIKey;
+        var url = "https://api.mlab.com/api/1/databases/db1_banco_horas/collections/usersL?apiKey="+myAPIKey;
         var data = JSON.stringify({"dataAdicao": dataAdicao, "userLog" : localStorage.getItem("tempUser"), "funcionario": funcionario, "navegador": navigator.userAgent});
 
         $.ajax({ 

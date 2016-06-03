@@ -1,0 +1,25 @@
+{
+  "name": "DB1 ponto calculator",
+  "version": "0.0.1",
+  "manifest_version": 2,
+  "description": "DB1 ponto calculator",
+  "homepage_url": "http://github.com/heidiks",
+  "content_scripts": [
+    {
+	  "matches": ["http://ponto.db1.com.br/ponto*"],
+      "js": ["lib/jquery.js", "lib/moment.min.js", "calculator.js"]
+    }
+  ],
+  "icons": { "16": "icon/logo.png",
+           "48": "icon/logo.png",
+          "128": "icon/logo.png" 
+  },
+  "browser_action": {
+    "default_title": "Calulator"
+  },
+  "permissions": [
+    "https://*/*",
+    "http://*/*",
+    "tabs"
+  ]
+}

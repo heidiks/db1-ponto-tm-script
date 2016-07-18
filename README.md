@@ -1,6 +1,10 @@
 # DB1 ponto calculator
 
 ## Instalação
+ https://chrome.google.com/webstore/detail/db1-ponto/ehngnojfedifiipfhlfhbehoffhmbdol?hl=pt-BR
+ 
+OU
+
  1. Instale a extensão:
      - Google Chrome
        - TamperMonkey: https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo

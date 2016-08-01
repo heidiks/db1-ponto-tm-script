@@ -1,12 +1,13 @@
 {
   "name": "DB1 Ponto",
-  "version": "0.0.1",
+  "version": "1.0.3",
   "manifest_version": 2,
   "description": "DB1 Ponto",
   "homepage_url": "http://github.com/heidiks",
   "content_scripts": [
     {
-    "matches": ["http://ponto.db1.com.br/ponto*"],
+    "matches": ["http://ponto.db1.com.br/ponto*",
+    "http://ponto2.db1.com.br/ponto*"],
     "css": ["lib/css/bootstrap.min.css"],
     "js": ["lib/js/jquery.js",
       "lib/js/moment.min.js",

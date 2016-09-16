@@ -24,7 +24,7 @@ $(".td_horas_trabalhadas").each(function(index) {
     };
 
     var jornada = new PontoSaldo();
-    jornada.setHorasTrabalhadas($(this)[0].innerText);
+    jornada.horasTrabalhadas($(this)[0].innerText);
 
     console.info(jornada.horasTrabalhadas)
     console.info(jornada.isHoraExtra())

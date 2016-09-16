@@ -254,7 +254,7 @@ if(pontoHoje.p1 != "") {
     };
 
     if (pontoHoje.horaSaida().isValid()) {
-        $("#content").apend(
+        $("#content").append(
             pontoBox.getBox()
         );
     }

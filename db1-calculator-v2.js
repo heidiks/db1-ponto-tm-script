@@ -232,7 +232,7 @@ if(pontoHoje.p1 != "") {
         this.build = function() {
             this.box =
                 "<div align=\"center\">" +
-                    "<button class=\"btn btn-default pull-right glyphicon glyphicon-refresh\" onClick=\"uBox()\"></button>" +
+                    "<div class=\"btn btn-default pull-right glyphicon glyphicon-refresh\" onClick=\"refreshBox()\"></div>" +
                     "<div class=\"well well-lg\">" +
                         this.montaProgress() +
                         "\n" +
@@ -246,7 +246,7 @@ if(pontoHoje.p1 != "") {
 
     pontoBox = new PontoBoxBuilder(pontoHoje).build();
 
-    uBox = function() {
+    refreshBox = function() {
         $("#horarioCumprido").text(pontoHoje.horaAtualTrabalhadas().format("HH:mm"));
 
         var porcentagem = pontoHoje.porcentagem_horaAtualTrabalhadas();

@@ -1,3 +1,4 @@
+//EC6 TODO classes
 calculaDiferenca = function(horaA, horaB) {
     var momentA = criaMoment(horaA);
     var momentB = criaMoment(horaB);
@@ -7,9 +8,9 @@ calculaDiferenca = function(horaA, horaB) {
 
 function PontoBase() {
     this.diaBase = "2011-01-01 ";
-    this.jornadaExtra = "08:58:00";
-    this.jornadaNormal = "08:48:00";
-    this.jornadaMinima = "08:38:00";
+    this.jornadaExtra = "08:58";
+    this.jornadaNormal = "08:48";
+    this.jornadaMinima = "08:38";
     this.horasTrabalhadas = {};
 
     this.setHorasTrabalhadas = function(horas) {
@@ -160,6 +161,7 @@ if (!document.getElementById(cssId))
 
 $(".td_horas_trabalhadas").each(function(index) {
     isDiaUtil = function(elemento) {
+        //TODO
         return true;
         //return elemento.parent().children().first().text().indexOf("Sab.") < 0 && elemento.parent().children().first().text().indexOf("Dom.") < 0;
     };
@@ -203,7 +205,7 @@ if(pontoHoje.p1 != "") {
         };
 
         this.montaProgress = function() {
-            var tempoString = pontoHoje.horaAtualTrabalhadas().isBefore(pontoHoje.diaBase + "01:00:00", 'time') ? "minutos": "horas";
+            var tempoString = pontoHoje.horaAtualTrabalhadas().isBefore(pontoHoje.diaBase + "01:00", 'time') ? "minutos": "horas";
             return "<h2>Voc&ecirc; j&aacute; cumpriu <strong><span id=\"horarioCumprido\">"+ pontoHoje.horaAtualTrabalhadas().format("HH:mm") +"</span></strong> "+ tempoString + "</h2>" +
                 "<div class=\"progress\">" +
                     "<div id=\"progress-bar\" class=\"progress-bar progress-bar-striped active\" role=\"progressbar\" aria-valuenow=\"45\" aria-valuemin=\"0\" aria-valuemax=\"100\" style=\"width: "+ pontoHoje.porcentagem_horaAtualTrabalhadas() + "%\">" +

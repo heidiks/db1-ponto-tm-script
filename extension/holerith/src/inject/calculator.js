@@ -1,7 +1,3 @@
-criaMoment = function(hora) {
-    return moment('2011-01-01 ' + hora);
-};
-
 // gambeta para carregar css
 var cssId = 'myCss';
 if (!document.getElementById(cssId))

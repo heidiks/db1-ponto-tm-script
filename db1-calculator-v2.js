@@ -122,7 +122,7 @@ PontoHoje.prototype = new PontoBase();
 function PontoConferencia() {
     this.relatorio = "";
     this.REL_CONFERENCIA_HORAS = "REL_CONFERENCIA_HORAS";
-    this.tempoParaAjuste = "03:00:00";
+    this.tempoParaAjuste = "03:00";
 
     this.setRelatorio = function() {
         this.relatorio = this.REL_CONFERENCIA_HORAS;
@@ -172,11 +172,11 @@ $(".td_horas_trabalhadas").each(function(index) {
     console.info(jornada.horasTrabalhadas)
     console.info(jornada.isHoraExtra())
 
-    if((jornada.horasTrabalhadas.isValid() && jornada.isHoraExtra() || (!isDiaUtil($(this)) && jornada.horasTrabalhadas.isAfter(jornada.diaBase + '00:00:01', 'time')))){
+    if((jornada.horasTrabalhadas.isValid() && jornada.isHoraExtra() || (!isDiaUtil($(this)) && jornada.horasTrabalhadas.isAfter(jornada.diaBase + '00:00', 'time')))){
         console.info("gotcha!" + $(this).text());
         $(this).append("&nbsp;<span class=\"label label-warning\" style=\"font-size:9px\" title=\"Hora extra\">+"+ jornada.calculaSaldoHHMMSS(isDiaUtil($(this))) + "</span>");
     }
-    else if(jornada.horasTrabalhadas.isValid() && jornada.isJornadaAbaixo() && !jornada.horasTrabalhadas.isSame(jornada.diaBase + '00:00:00', 'time')) {
+    else if(jornada.horasTrabalhadas.isValid() && jornada.isJornadaAbaixo() && !jornada.horasTrabalhadas.isSame(jornada.diaBase + '00:00', 'time')) {
         console.info("gotcha!" + $(this).text());
         $(this).append("&nbsp;<span class=\"label label-danger\" style=\"font-size:9px\" title=\"Jornada abaixo\">-" + jornada.calculaSaldoNegativoHHMMSS() + "</span>");
     }
@@ -186,12 +186,14 @@ $(".td_horas_trabalhadas").each(function(index) {
     }
 });
 
-var p1 = $('.tabExterna tr').last().children().eq(1).html();
-var p2 = $('.tabExterna tr').last().children().eq(2).html();
-var p3 = $('.tabExterna tr').last().children().eq(3).html();
-var p4 = $('.tabExterna tr').last().children().eq(4).html();
-var p5 = $('.tabExterna tr').last().children().eq(5).html();
-var p6 = $('.tabExterna tr').last().children().eq(6).html();
+var today = $(".tabela_ponto tbody tr td a[dp=\"" + moment().format("DD/MM/YYYY") +"\"]").parent();
+
+var p1 = today.children().eq(1);
+var p2 = today.children().eq(2);
+var p3 = today.children().eq(3);
+var p4 = "";
+var p5 = "";
+var p6 = "";
 
 pontoHoje = new PontoHoje(p1, p2, p3, p4, p5, p6);
 

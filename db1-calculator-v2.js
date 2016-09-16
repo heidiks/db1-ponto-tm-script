@@ -6,69 +6,65 @@ calculaDiferenca = function(horaA, horaB) {
     return momentA.diff(momentB, 'second', true);
 };
 
-class PontoBase {
+function PontoBase() {
+    this.diaBase = "2011-01-01 ";
+    this.jornadaExtra = "08:58";
+    this.jornadaNormal = "08:48";
+    this.jornadaMinima = "08:38";
+    this.horasTrabalhadas = {};
 
-    constructor() {
-        this.diaBase = "2011-01-01 ";
-        this.jornadaExtra = "08:58";
-        this.jornadaNormal = "08:48";
-        this.jornadaMinima = "08:38";
-        this.horasTrabalhadas = {};
-    }
-
-    set horasTrabalhadas(horas) {
+    this.setHorasTrabalhadas = function(horas) {
         this.horasTrabalhadas = moment(this.diaBase + horas);
-    }
+    };
 
 }
 
-class PontoSaldo extends PontoBase {
-
-    calculaSaldoHHMMSS(diaUtil) {
+function PontoSaldo() {
+    this.calculaSaldoHHMMSS = function(diaUtil) {
         var day = moment(this.diaBase);
         if(diaUtil) 
             return day.add(calculaDiferenca(this.horasTrabalhadas.format("HH:mm"),  this.jornadaNormal), "second").format("HH:mm");
 
         return this.horasTrabalhadas.format("HH:mm");
-    }
+    };
 
-    calculaSaldoNegativoHHMMSS() {
+    this.calculaSaldoNegativoHHMMSS = function() {
         var day = moment(this.diaBase);
         return day.subtract(calculaDiferenca(this.horasTrabalhadas.format("HH:mm"),  this.jornadaNormal), "second").format("HH:mm");
-    }
+    };
 
-    calculaSaldo() {
+    this.calculaSaldo = function() {
         return calculaDiferenca(this.horasTrabalhadas.format("HH:mm"),  this.jornadaNormal);
-    }
+    };
 
-    isHoraExtra() {
+    this.isHoraExtra = function() {
         return !this.horasTrabalhadas.isBefore(this.diaBase + this.jornadaExtra, 'time');
-    }
+    };
 
-    isJornadaAbaixo() {
+    this.isJornadaAbaixo = function () {
         return this.horasTrabalhadas.isBefore(this.diaBase + this.jornadaMinima, 'time');
-    }
+    };
 
 }
 
-class PontoHoje extends PontoBase {
-    constructor(p1, p2, p3, p4, p5, p6) {
-        this.p1 = p1;
-        this.p2 = p2;
-        this.p3 = p3;
-        this.p4 = p4;
-        this.p5 = p5;
-        this.p6 = p6;
-        this.jornadaMinimaTotalSegundos = 31680;
-        this.existePrevisao = false;
-        this.periodoTrabalhadoManha = "";
-    }
+PontoSaldo.prototype = new PontoBase();
 
-    timeNow() {
+function PontoHoje(p1, p2, p3, p4, p5, p6) {
+    this.p1 = p1;
+    this.p2 = p2;
+    this.p3 = p3;
+    this.p4 = p4;
+    this.p5 = p5;
+    this.p6 = p6;
+    this.jornadaMinimaTotalSegundos = 31680;
+    this.existePrevisao = false;
+    this.periodoTrabalhadoManha = "";
+
+    this.timeNow = function() {
         return moment().format("HH:mm");
-    }
+    };
 
-    periodoTrabalhado() {
+    this.periodoTrabalhado = function() {
         if(this.isTerceiroPeriodo() && this.p6 != "")
             return calculaDiferenca(this.p2, this.p1) + calculaDiferenca(this.p4, this.p3) + calculaDiferenca(p6, p5);
         else if (this.isTerceiroPeriodo() && this.p6 == "") {
@@ -90,56 +86,59 @@ class PontoHoje extends PontoBase {
             return calculaDiferenca(this.p2, this.p1);
         else 
             return calculaDiferenca(this.timeNow(), this.p1);
-    }
+    };
 
-    horaAtualTrabalhadas() {
+    this.horaAtualTrabalhadas = function() {
         return moment(this.diaBase).add(this.periodoTrabalhado(), "second");
-    }
+    };
 
-    porcentagem_horaAtualTrabalhadas() {
+    this.porcentagem_horaAtualTrabalhadas = function() {
         return this.periodoTrabalhado() * 100 / this.jornadaMinimaTotalSegundos;
-    }
+    };
 
-    isTerceiroPeriodo() {
+    this.isTerceiroPeriodo = function() {
         return this.p5 != "" && this.p4 != "" && this.p3 != "";
-    }
+    };
 
-    isSegundoPeriodo() {
+    this.isSegundoPeriodo = function() {
         return this.p1 != "" && this.p2 != "" && this.p3 != "" && this.p5 == "" && this.p6 == "";
-    }
+    };
 
-    ultimoPonto() {
+    this.ultimoPonto = function() {
         if(this.isTerceiroPeriodo())
             return this.p5;
 
         return this.p3;
-    }
+    };
 
-    horaSaida() {
+    this.horaSaida = function() {
         return criaMoment(this.ultimoPonto()).add(pontoHoje.jornadaMinimaTotalSegundos - pontoHoje.periodoTrabalhadoManha, "second");
-    }
+    };
 
 }
 
-class PontoConferencia extends PontoBase {
-    constructor() {
-        this.relatorio = "";
-        this.REL_CONFERENCIA_HORAS = "REL_CONFERENCIA_HORAS";
-        this.tempoParaAjuste = "03:00";
-    }
+PontoHoje.prototype = new PontoBase();
 
-    setRelatorio() {
+function PontoConferencia() {
+    this.relatorio = "";
+    this.REL_CONFERENCIA_HORAS = "REL_CONFERENCIA_HORAS";
+    this.tempoParaAjuste = "03:00";
+
+    this.setRelatorio = function() {
         this.relatorio = this.REL_CONFERENCIA_HORAS;
-    }
+    };
 
-    isRelatorioConferenciaTask() {
+    this.isRelatorioConferenciaTask = function() {
         return this.relatorio == this.REL_CONFERENCIA_HORAS;
-    }
+    };
 
-    isAjustavel(diferenca) {
+    this.isAjustavel = function(diferenca) {
         return criaMoment(diferenca.replace("-","")).isAfter(this.diaBase + this.tempoParaAjuste, 'time'); 
-    }
+    };
 }
+
+PontoConferencia.prototype = new PontoBase();
+
 
 criaMoment = function(hora) {
     return moment('2011-01-01 ' + hora);
@@ -168,16 +167,21 @@ $(".td_horas_trabalhadas").each(function(index) {
     };
 
     var jornada = new PontoSaldo();
-    jornada.horasTrabalhadas($(this)[0].innerText);
+    jornada.setHorasTrabalhadas($(this)[0].innerText);
 
+    console.info(jornada.horasTrabalhadas)
+    console.info(jornada.isHoraExtra())
 
     if((jornada.horasTrabalhadas.isValid() && jornada.isHoraExtra() || (!isDiaUtil($(this)) && jornada.horasTrabalhadas.isAfter(jornada.diaBase + '00:00', 'time')))){
+        console.info("gotcha!" + $(this).text());
         $(this).append("&nbsp;<span class=\"label label-warning\" style=\"font-size:9px\" title=\"Hora extra\">+"+ jornada.calculaSaldoHHMMSS(isDiaUtil($(this))) + "</span>");
     }
     else if(jornada.horasTrabalhadas.isValid() && jornada.isJornadaAbaixo() && !jornada.horasTrabalhadas.isSame(jornada.diaBase + '00:00', 'time')) {
+        console.info("gotcha!" + $(this).text());
         $(this).append("&nbsp;<span class=\"label label-danger\" style=\"font-size:9px\" title=\"Jornada abaixo\">-" + jornada.calculaSaldoNegativoHHMMSS() + "</span>");
     }
     else if(jornada.horasTrabalhadas.isSame(jornada.diaBase + '00:00:00', 'time')) {
+        console.info("gotcha!" + $(this).text());
         $(this).parent().addClass("info");
     }
 });

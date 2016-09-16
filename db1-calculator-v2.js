@@ -188,9 +188,9 @@ $(".td_horas_trabalhadas").each(function(index) {
 
 var today = $(".tabela_ponto tbody tr td a[dp=\"" + moment().format("DD/MM/YYYY") +"\"]").parent();
 
-var p1 = today.children().eq(1);
-var p2 = today.children().eq(2);
-var p3 = today.children().eq(3);
+var p1 = today.children().eq(1).text();
+var p2 = today.children().eq(2).text();
+var p3 = today.children().eq(3).text();
 var p4 = "";
 var p5 = "";
 var p6 = "";
@@ -254,7 +254,7 @@ if(pontoHoje.p1 != "") {
     };
 
     if (pontoHoje.horaSaida().isValid()) {
-        $(".tabExterna").parent().prepend(
+        $("#content").apend(
             pontoBox.getBox()
         );
     }

@@ -1,6 +1,6 @@
 calculaDiferenca = function(horaA, horaB) {
-    var momentA = criaMoment(horaA);
-    var momentB = criaMoment(horaB);
+    let momentA = criaMoment(horaA);
+    let momentB = criaMoment(horaB);
 
     return momentA.diff(momentB, 'second', true);
 };
@@ -15,7 +15,7 @@ class PontoBase {
         this.horasTrabalhadas = {};
     }
 
-    set horasTrabalhadas(horas) {
+    setHorasTrabalhadas(horas) {
         this.horasTrabalhadas = moment(this.diaBase + horas);
     }
 
@@ -24,7 +24,7 @@ class PontoBase {
 class PontoSaldo extends PontoBase {
 
     calculaSaldoHHMMSS(diaUtil) {
-        var day = moment(this.diaBase);
+        let day = moment(this.diaBase);
         if(diaUtil) 
             return day.add(calculaDiferenca(this.horasTrabalhadas.format("HH:mm"),  this.jornadaNormal), "second").format("HH:mm");
 
@@ -32,7 +32,7 @@ class PontoSaldo extends PontoBase {
     }
 
     calculaSaldoNegativoHHMMSS() {
-        var day = moment(this.diaBase);
+        let day = moment(this.diaBase);
         return day.subtract(calculaDiferenca(this.horasTrabalhadas.format("HH:mm"),  this.jornadaNormal), "second").format("HH:mm");
     }
 

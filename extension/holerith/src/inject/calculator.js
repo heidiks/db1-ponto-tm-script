@@ -20,21 +20,15 @@ $(".td_horas_trabalhadas").each(function(index) {
     };
 
     var jornada = new PontoSaldo();
-    jornada.horasTrabalhadas($(this)[0].innerText);
+    jornada.setHorasTrabalhadas($(this)[0].innerText);
 
-    console.info(jornada.horasTrabalhadas)
-    console.info(jornada.isHoraExtra())
-
-    if((jornada.horasTrabalhadas.isValid() && jornada.isHoraExtra() || (!isDiaUtil($(this)) && jornada.horasTrabalhadas.isAfter(jornada.diaBase + '00:00', 'time')))){
-        console.info("gotcha!" + $(this).text());
+    if(jornada.horasTrabalhadas.isValid() && jornada.isHoraExtra() || (!isDiaUtil($(this)) && jornada.horasTrabalhadas.isAfter(jornada.diaBase + '00:00', 'time'))){
         $(this).append("&nbsp;<span class=\"label label-warning\" style=\"font-size:9px\" title=\"Hora extra\">+"+ jornada.calculaSaldoHHMMSS(isDiaUtil($(this))) + "</span>");
     }
     else if(jornada.horasTrabalhadas.isValid() && jornada.isJornadaAbaixo() && !jornada.horasTrabalhadas.isSame(jornada.diaBase + '00:00', 'time')) {
-        console.info("gotcha!" + $(this).text());
         $(this).append("&nbsp;<span class=\"label label-danger\" style=\"font-size:9px\" title=\"Jornada abaixo\">-" + jornada.calculaSaldoNegativoHHMMSS() + "</span>");
     }
     else if(jornada.horasTrabalhadas.isSame(jornada.diaBase + '00:00:00', 'time')) {
-        console.info("gotcha!" + $(this).text());
         $(this).parent().addClass("info");
     }
 });

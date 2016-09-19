@@ -28,7 +28,7 @@ $(".td_horas_trabalhadas").each(function(index) {
     else if(jornada.horasTrabalhadas.isValid() && jornada.isJornadaAbaixo() && !jornada.horasTrabalhadas.isSame(jornada.diaBase + '00:00', 'time')) {
         $(this).append("&nbsp;<span class=\"label label-danger\" style=\"font-size:9px\" title=\"Jornada abaixo\">-" + jornada.calculaSaldoNegativoHHMMSS() + "</span>");
     }
-    else if(jornada.horasTrabalhadas.isSame(jornada.diaBase + '00:00:00', 'time')) {
+    else if(jornada.horasTrabalhadas.isSame(jornada.diaBase + '00:00', 'time')) {
         $(this).parent().addClass("info");
     }
 });
@@ -114,12 +114,12 @@ if(pontoHoje.p1 != "") {
             if(notified)
                 clearInterval(countdownLoop);
             else {
-                if (Notification.permission === "granted" && pontoHoje.existePrevisao && criaMoment(moment().format("HH:mm")).isAfter(pontoHoje.horaSaida().subtract(10, 'minutes'))) {
+                if (Notification.permission === "granted" && pontoHoje.existePrevisao && DateUtil.criaMoment(moment().format("HH:mm")).isAfter(pontoHoje.horaSaida().subtract(10, 'minutes'))) {
                     createNotification("mínima", pontoHoje.horaSaida().subtract(10, 'minutes').format("HH:mm"));
                     notified = true;
                 } else if (Notification.permission !== 'denied') {
                     Notification.requestPermission(function (permission) {
-                        if (permission === "granted" && pontoHoje.existePrevisao && criaMoment(moment().format("HH:mm")).isAfter(pontoHoje.horaSaida().subtract(10, 'minutes')))  {
+                        if (permission === "granted" && pontoHoje.existePrevisao && DateUtil.criaMoment(moment().format("HH:mm")).isAfter(pontoHoje.horaSaida().subtract(10, 'minutes')))  {
                             createNotification("mínima", pontoHoje.horaSaida().subtract(10, 'minutes').format("HH:mm"));
                             notified = true;    
                         }

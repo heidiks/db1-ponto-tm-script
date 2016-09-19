@@ -1,9 +1,17 @@
-calculaDiferenca = function(horaA, horaB) {
-    let momentA = criaMoment(horaA);
-    let momentB = criaMoment(horaB);
+class DateUtil {
 
-    return momentA.diff(momentB, 'second', true);
-};
+    static criaMoment(hora) {
+        return moment('2011-01-01 ' + hora);
+    }
+
+    static calculaDiferenca(horaA, horaB) {
+        let momentA = DateUtil.criaMoment(horaA);
+        let momentB = DateUtil.criaMoment(horaB);
+
+        return momentA.diff(momentB, 'second', true);
+    }
+
+}
 
 class PontoBase {
 
@@ -26,18 +34,18 @@ class PontoSaldo extends PontoBase {
     calculaSaldoHHMMSS(diaUtil) {
         let day = moment(this.diaBase);
         if(diaUtil) 
-            return day.add(calculaDiferenca(this.horasTrabalhadas.format("HH:mm"),  this.jornadaNormal), "second").format("HH:mm");
+            return day.add(DateUtil.calculaDiferenca(this.horasTrabalhadas.format("HH:mm"),  this.jornadaNormal), "second").format("HH:mm");
 
         return this.horasTrabalhadas.format("HH:mm");
     }
 
     calculaSaldoNegativoHHMMSS() {
         let day = moment(this.diaBase);
-        return day.subtract(calculaDiferenca(this.horasTrabalhadas.format("HH:mm"),  this.jornadaNormal), "second").format("HH:mm");
+        return day.subtract(DateUtil.calculaDiferenca(this.horasTrabalhadas.format("HH:mm"),  this.jornadaNormal), "second").format("HH:mm");
     }
 
     calculaSaldo() {
-        return calculaDiferenca(this.horasTrabalhadas.format("HH:mm"),  this.jornadaNormal);
+        return DateUtil.calculaDiferenca(this.horasTrabalhadas.format("HH:mm"),  this.jornadaNormal);
     }
 
     isHoraExtra() {
@@ -69,26 +77,26 @@ class PontoHoje extends PontoBase {
 
     periodoTrabalhado() {
         if(this.isTerceiroPeriodo() && this.p6 != "")
-            return calculaDiferenca(this.p2, this.p1) + calculaDiferenca(this.p4, this.p3) + calculaDiferenca(p6, p5);
+            return DateUtil.calculaDiferenca(this.p2, this.p1) + DateUtil.calculaDiferenca(this.p4, this.p3) + DateUtil.calculaDiferenca(p6, p5);
         else if (this.isTerceiroPeriodo() && this.p6 == "") {
             this.existePrevisao = true;
-            this.periodoTrabalhadoManha = calculaDiferenca(this.p2, this.p1) + calculaDiferenca(this.p4, this.p3);
+            this.periodoTrabalhadoManha = DateUtil.calculaDiferenca(this.p2, this.p1) + DateUtil.calculaDiferenca(this.p4, this.p3);
 
-            return this.periodoTrabalhadoManha + calculaDiferenca(this.timeNow(), this.p5);
+            return this.periodoTrabalhadoManha + DateUtil.calculaDiferenca(this.timeNow(), this.p5);
         }
 
         if(this.isSegundoPeriodo() && this.p4 != "")
-            return calculaDiferenca(this.p2, this.p1) + calculaDiferenca(this.p4, this.p3);
+            return DateUtil.calculaDiferenca(this.p2, this.p1) + DateUtil.calculaDiferenca(this.p4, this.p3);
         else if(this.isSegundoPeriodo() & this.p4 == "") {
             this.existePrevisao = true;
-            this.periodoTrabalhadoManha = calculaDiferenca(this.p2, this.p1);
-            return this.periodoTrabalhadoManha + calculaDiferenca(this.timeNow(), this.p3);
+            this.periodoTrabalhadoManha = DateUtil.calculaDiferenca(this.p2, this.p1);
+            return this.periodoTrabalhadoManha + DateUtil.calculaDiferenca(this.timeNow(), this.p3);
         }
 
         if(this.p1 != "" && this.p2 != "")
-            return calculaDiferenca(this.p2, this.p1);
+            return DateUtil.calculaDiferenca(this.p2, this.p1);
         else 
-            return calculaDiferenca(this.timeNow(), this.p1);
+            return DateUtil.calculaDiferenca(this.timeNow(), this.p1);
     }
 
     horaAtualTrabalhadas() {
@@ -115,7 +123,7 @@ class PontoHoje extends PontoBase {
     }
 
     horaSaida() {
-        return criaMoment(this.ultimoPonto()).add(pontoHoje.jornadaMinimaTotalSegundos - pontoHoje.periodoTrabalhadoManha, "second");
+        return DateUtil.criaMoment(this.ultimoPonto()).add(pontoHoje.jornadaMinimaTotalSegundos - pontoHoje.periodoTrabalhadoManha, "second");
     }
 
 }
@@ -136,10 +144,7 @@ class PontoConferencia extends PontoBase {
     }
 
     isAjustavel(diferenca) {
-        return criaMoment(diferenca.replace("-","")).isAfter(this.diaBase + this.tempoParaAjuste, 'time'); 
+        return DateUtil.criaMoment(diferenca.replace("-","")).isAfter(this.diaBase + this.tempoParaAjuste, 'time');
     }
 }
 
-criaMoment = function(hora) {
-    return moment('2011-01-01 ' + hora);
-};

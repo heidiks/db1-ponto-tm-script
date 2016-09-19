@@ -60,6 +60,7 @@ class PontoSaldo extends PontoBase {
 
 class PontoHoje extends PontoBase {
     constructor(p1, p2, p3, p4, p5, p6) {
+        super();
         this.p1 = p1;
         this.p2 = p2;
         this.p3 = p3;
@@ -129,7 +130,9 @@ class PontoHoje extends PontoBase {
 }
 
 class PontoConferencia extends PontoBase {
+
     constructor() {
+        super();
         this.relatorio = "";
         this.REL_CONFERENCIA_HORAS = "REL_CONFERENCIA_HORAS";
         this.tempoParaAjuste = "03:00";

@@ -1,3 +1,10 @@
+refreshBox = function() {
+    $("#horarioCumprido").text(pontoHoje.horaAtualTrabalhadas().format("HH:mm"));
+
+    var porcentagem = pontoHoje.porcentagem_horaAtualTrabalhadas();
+    $("#progress-bar").css("width", porcentagem + "%").text(parseInt(porcentagem) +"%");
+};
+
 // gambeta para carregar css
 var cssId = 'myCss';
 if (!document.getElementById(cssId))
@@ -38,7 +45,7 @@ var today = $(".tabela_ponto tbody tr td a[dp=\"" + moment().format("DD/MM/YYYY"
 var p1 = today.children().eq(1).text();
 var p2 = today.children().eq(2).text();
 var p3 = today.children().eq(3).text();
-var p4 = "";
+var p4 = today.children().eq(4).text();
 var p5 = "";
 var p6 = "";
 
@@ -93,12 +100,7 @@ if(pontoHoje.p1 != "") {
 
     pontoBox = new PontoBoxBuilder(pontoHoje).build();
 
-    refreshBox = function() {
-        $("#horarioCumprido").text(pontoHoje.horaAtualTrabalhadas().format("HH:mm"));
 
-        var porcentagem = pontoHoje.porcentagem_horaAtualTrabalhadas();
-        $("#progress-bar").css("width", porcentagem + "%").text(parseInt(porcentagem) +"%");
-    };
 
     if (pontoHoje.horaSaida().isValid()) {
         $("#content").parent().append(

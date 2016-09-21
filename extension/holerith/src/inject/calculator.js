@@ -20,34 +20,17 @@ if (!document.getElementById(cssId))
 }
 
 $(".td_horas_trabalhadas").each(function(index) {
-    isDiaUtil = function(elemento) {
-        //TODO
-        return true;
-        //return elemento.parent().children().first().text().indexOf("Sab.") < 0 && elemento.parent().children().first().text().indexOf("Dom.") < 0;
-    };
-
-    var jornada = new PontoSaldo();
-    jornada.setHorasTrabalhadas($(this)[0].innerText);
-
-    if(jornada.horasTrabalhadas.isValid() && jornada.isHoraExtra() || (!isDiaUtil($(this)) && jornada.horasTrabalhadas.isAfter(jornada.diaBase + '00:00', 'time'))){
-        $(this).append("&nbsp;<span class=\"label label-warning\" style=\"font-size:9px\" title=\"Hora extra\">+"+ jornada.calculaSaldoHHMMSS(isDiaUtil($(this))) + "</span>");
-    }
-    else if(jornada.horasTrabalhadas.isValid() && jornada.isJornadaAbaixo() && !jornada.horasTrabalhadas.isSame(jornada.diaBase + '00:00', 'time')) {
-        $(this).append("&nbsp;<span class=\"label label-danger\" style=\"font-size:9px\" title=\"Jornada abaixo\">-" + jornada.calculaSaldoNegativoHHMMSS() + "</span>");
-    }
-    else if(jornada.horasTrabalhadas.isSame(jornada.diaBase + '00:00', 'time')) {
-        $(this).parent().addClass("info");
-    }
+    //PINTAR linha :)
 });
 
-var today = $(".tabela_ponto tbody tr td a[dp=\"" + moment().format("DD/MM/YYYY") +"\"]").parent();
+var today = $(".espelho_ponto_pontofopag.espelho_ponto_selecao tbody tr td:contains('" + moment().format("DD/MM/YYYY") +"')").parent()
 
-var p1 = today.children().eq(1).text();
-var p2 = today.children().eq(2).text();
-var p3 = today.children().eq(3).text();
-var p4 = today.children().eq(4).text();
-var p5 = "";
-var p6 = "";
+var p1 = today.children().eq(3).text() === "--:--" ? "" : today.children().eq(3).text();
+var p2 = today.children().eq(4).text() === "--:--" ? "" : today.children().eq(4).text();
+var p3 = today.children().eq(5).text() === "--:--" ? "" : today.children().eq(5).text();
+var p4 = today.children().eq(6).text() === "--:--" ? "" : today.children().eq(6).text();
+var p5 = today.children().eq(7).text() === "--:--" ? "" : today.children().eq(7).text();
+var p6 = today.children().eq(8).text() === "--:--" ? "" : today.children().eq(8).text();
 
 pontoHoje = new PontoHoje(p1, p2, p3, p4, p5, p6);
 

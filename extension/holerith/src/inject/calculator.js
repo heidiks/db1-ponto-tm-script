@@ -29,8 +29,9 @@ var p1 = today.children().eq(3).text() === "--:--" ? "" : today.children().eq(3)
 var p2 = today.children().eq(4).text() === "--:--" ? "" : today.children().eq(4).text();
 var p3 = today.children().eq(5).text() === "--:--" ? "" : today.children().eq(5).text();
 var p4 = today.children().eq(6).text() === "--:--" ? "" : today.children().eq(6).text();
-var p5 = today.children().eq(7).text() === "--:--" ? "" : today.children().eq(7).text();
-var p6 = today.children().eq(8).text() === "--:--" ? "" : today.children().eq(8).text();
+//Optional
+var p5 = today.children().eq(7).text() === "--:--" || today.children().eq(7).closest('.espelho_ponto_pontofopag.espelho_ponto_selecao').find('th').next().eq(7).text() !== "Entrada 3" ? "" : today.children().eq(7).text();
+var p6 = today.children().eq(8).text() === "--:--" || today.children().eq(8).closest('.espelho_ponto_pontofopag.espelho_ponto_selecao').find('th').next().eq(8).text() !== "Saída 3" ? "" : today.children().eq(8).text();
 
 pontoHoje = new PontoHoje(p1, p2, p3, p4, p5, p6);
 

@@ -17,9 +17,9 @@ class PontoBase {
 
     constructor() {
         this.diaBase = "2011-01-01 ";
-        this.jornadaExtra = "08:58";
-        this.jornadaNormal = "08:48";
-        this.jornadaMinima = "08:38";
+        this.jornadaExtra = "08:59";
+        this.jornadaNormal = "08:49";
+        this.jornadaMinima = "08:39";
         this.horasTrabalhadas = {};
     }
 

@@ -84,7 +84,6 @@ if(pontoHoje.p1 != "") {
     pontoBox = new PontoBoxBuilder(pontoHoje).build();
 
 
-
     if (pontoHoje.horaSaida().isValid()) {
         $("#content").parent().append(
             pontoBox.getBox()

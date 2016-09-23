@@ -1,13 +1,13 @@
 {
   "name": "DB1 Ponto",
-  "version": "1.1.14",
+  "version": "1.1.15",
   "manifest_version": 2,
   "description": "DB1 Ponto",
   "homepage_url": "http://github.com/heidiks",
   "content_scripts": [
     {
     "matches": ["https://prd.meuholerite.com.br/*",
-    "http://ponto2.db1.com.br/ponto*"],
+    "http://prd.meuholerite.com.br/*"],
     "css": ["lib/css/bootstrap.min.css"],
     "js": ["lib/js/jquery.js",
       "lib/js/moment.min.js",
